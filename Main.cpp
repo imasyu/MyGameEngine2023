@@ -88,13 +88,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::EndDraw();			
 		}
 	}
-	
 
-	
-
-   
-
-	
 	return 0;
 }
 

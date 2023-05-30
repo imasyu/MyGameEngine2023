@@ -4,7 +4,6 @@
 
 
 //変数
-
 namespace Direct3D
 {
 	ID3D11Device* pDevice;		                //デバイス
@@ -21,7 +20,6 @@ namespace Direct3D
 
 
 //初期化
-
 void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 {
 	///////////////////////////いろいろ準備するための設定///////////////////////////////
@@ -99,10 +97,8 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 //シェーダー準備
 void Direct3D::InitShader()
-
 {
-	// 頂点シェーダの作成（コンパイル）
-
+	//頂点シェーダの作成（コンパイル）
 	ID3DBlob* pCompileVS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
 	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
@@ -116,7 +112,7 @@ void Direct3D::InitShader()
 
 	pCompileVS->Release();
 
-	// ピクセルシェーダの作成（コンパイル）
+	//ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
@@ -128,13 +124,17 @@ void Direct3D::InitShader()
 	rdc.FillMode = D3D11_FILL_SOLID;
 	rdc.FrontCounterClockwise = FALSE;
 	pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
+
+	//それぞれをデバイスコンテキストにセット
+	pContext->VSSetShader(pVertexShader, NULL, 0);	//頂点シェーダー
+	pContext->PSSetShader(pPixelShader, NULL, 0);	//ピクセルシェーダー
+	pContext->IASetInputLayout(pVertexLayout);	//頂点インプットレイアウト
+	pContext->RSSetState(pRasterizerState);		//ラスタライザー
 }
 
 
 //描画開始
-
 void Direct3D::BeginDraw()
-
 {
 	//背景の色
 	float clearColor[4] = { 0.0f, 0.5f, 0.5f, 1.0f };//R,G,B,A
@@ -146,9 +146,7 @@ void Direct3D::BeginDraw()
 
 
 //描画終了
-
 void Direct3D::EndDraw()
-
 {
 	//スワップ（バックバッファを表に表示する）
 	pSwapChain->Present(0, 0);
@@ -157,12 +155,18 @@ void Direct3D::EndDraw()
 
 
 //解放処理
-
 void Direct3D::Release()
 {
 	//解放処理
+	pRasterizerState->Release();
+	pVertexLayout->Release();
+	pPixelShader->Release();
+	pVertexShader->Release();
+
 	pRenderTargetView->Release();
 	pSwapChain->Release();
 	pContext->Release();
 	pDevice->Release();
+
+	
 }
