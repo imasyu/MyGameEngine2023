@@ -7,8 +7,11 @@ using namespace DirectX;
 //コンスタントバッファー
 struct CONSTANT_BUFFER
 {
-	XMMATRIX            amtWVP;
+	XMMATRIX	matWVP;
+
 };
+
+
 
 class Quad
 {

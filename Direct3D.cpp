@@ -2,7 +2,6 @@
 #include <d3dcompiler.h>
 
 
-
 //変数
 namespace Direct3D
 {
@@ -85,11 +84,6 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	pContext->OMSetRenderTargets(1, &pRenderTargetView, nullptr);            // 描画先を設定
 	pContext->RSSetViewports(1, &vp);
 
-	ID3D11Device* pDevice;		                //デバイス
-	ID3D11DeviceContext* pContext;		        //デバイスコンテキスト
-	IDXGISwapChain* pSwapChain;		            //スワップチェイン
-	ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
-
 	//シェーダー準備
 	InitShader();
 
@@ -98,11 +92,11 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 //シェーダー準備
 void Direct3D::InitShader()
 {
-	//頂点シェーダの作成（コンパイル）
+	// 頂点シェーダの作成（コンパイル）
 	ID3DBlob* pCompileVS = nullptr;
-	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+	D3DCompileFromFile(L"Simple3Dr.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
 	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
-	pCompileVS->Release();
+	
 
 	//頂点インプットレイアウト
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
@@ -114,7 +108,7 @@ void Direct3D::InitShader()
 
 	//ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
-	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	D3DCompileFromFile(L"Simple3Dr.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
 	pCompilePS->Release();
 

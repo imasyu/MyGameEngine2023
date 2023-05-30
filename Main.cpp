@@ -1,8 +1,10 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
+#include "Quad.h"
 
 
+Quad* P = new Quad();
 
 //定数宣言
 const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -11,8 +13,6 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -57,14 +57,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	);
 
 
-
    //ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
 
-
+	P->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -84,12 +83,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
+			P->Draw();
+
 			//描画処理
-			Direct3D::EndDraw();			
+			Direct3D::EndDraw();	
+
+			
 		}
 	}
 
+	Direct3D::Release();
 	return 0;
+
 }
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
@@ -102,6 +107,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
+
+	P->Release();
 }
 
 

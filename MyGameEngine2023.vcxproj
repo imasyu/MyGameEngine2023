@@ -138,7 +138,7 @@
     <ClInclude Include="Quad.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Sample3Dr.hlsl">
+    <FxCompile Include="Simple3Dr.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
