@@ -66,6 +66,10 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 
 	//レンダーターゲットビューを作成
 	HRESULT hr;
+	if (hr == E_FAIL)
+	{
+		//失敗した時の処理
+	}
 	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
 
 	//一時的にバックバッファを取得しただけなので解放
