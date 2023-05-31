@@ -91,7 +91,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			
 		}
 	}
-
+	SAFE_DELETE(P);
 	Direct3D::Release();
 	return 0;
 
@@ -107,8 +107,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
-
-	P->Release();
 }
 
 

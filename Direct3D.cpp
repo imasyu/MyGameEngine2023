@@ -5,10 +5,10 @@
 //変数
 namespace Direct3D
 {
-	ID3D11Device* pDevice;		                //デバイス
-	ID3D11DeviceContext* pContext;		        //デバイスコンテキスト
-	IDXGISwapChain* pSwapChain;		            //スワップチェイン
-	ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
+	ID3D11Device* pDevice = nullptr;		                //デバイス
+	ID3D11DeviceContext* pContext = nullptr;		        //デバイスコンテキスト
+	IDXGISwapChain* pSwapChain = nullptr;		            //スワップチェイン
+	ID3D11RenderTargetView* pRenderTargetView = nullptr;	//レンダーターゲットビュー
 
 	ID3D11VertexShader* pVertexShader = nullptr;	//頂点シェーダー
 	ID3D11PixelShader* pPixelShader = nullptr;		//ピクセルシェーダー
@@ -95,6 +95,7 @@ void Direct3D::InitShader()
 	// 頂点シェーダの作成（コンパイル）
 	ID3DBlob* pCompileVS = nullptr;
 	D3DCompileFromFile(L"Simple3Dr.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+	assert(pCompileVS != nullptr);
 	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
 	
 
@@ -109,6 +110,7 @@ void Direct3D::InitShader()
 	//ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3Dr.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	assert(pCompilePS != nullptr);
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
 	pCompilePS->Release();
 
@@ -153,15 +155,15 @@ void Direct3D::EndDraw()
 void Direct3D::Release()
 {
 	//解放処理
-	pRasterizerState->Release();
-	pVertexLayout->Release();
-	pPixelShader->Release();
-	pVertexShader->Release();
+	SAFE_RELEASE(pRasterizerState);
+	SAFE_RELEASE(pVertexLayout);
+	SAFE_RELEASE(pPixelShader);
+	SAFE_RELEASE(pVertexShader);
 
-	pRenderTargetView->Release();
-	pSwapChain->Release();
-	pContext->Release();
-	pDevice->Release();
+	SAFE_RELEASE(pRenderTargetView);
+	SAFE_RELEASE(pSwapChain);
+	SAFE_RELEASE(pContext);
+	SAFE_RELEASE(pDevice);
 
 	
 }

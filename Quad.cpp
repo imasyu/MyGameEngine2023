@@ -1,11 +1,13 @@
 #include "Quad.h"
 
+//ポインタ初期化
 Quad::Quad():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr)
 {
 }
 
 Quad::~Quad()
 {
+	Release();//SAFE_RELEASEシリーズに書き換えよう
 }
 
 void Quad::Initialize()
@@ -13,11 +15,11 @@ void Quad::Initialize()
 	// 頂点情報
 	XMVECTOR vertices[] =
 	{
-		XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（左上）
-		XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（右上）
-		XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（右下）
-		XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）	
-//		XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）	
+		XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（左上）0
+		XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	// 四角形の頂点（右上）1
+		XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（右下）2
+		XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）3
+//		XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f),	// 四角形の頂点（左下）4
 	};
 
 	// 頂点データ用バッファの設定
@@ -97,5 +99,11 @@ void Quad::Draw()
 
 void Quad::Release()
 {
+	SAFE_RELEASE(pConstantBuffer_);
+	SAFE_RELEASE(pIndexBuffer_);
+	SAFE_RELEASE(pVertexBuffer_);
 
+	//pVertexBuffer->Release();
+	//pIndexBuffer->Release();
+	//pConstantBuffer->Release();
 }
