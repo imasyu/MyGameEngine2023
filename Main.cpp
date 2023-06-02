@@ -19,7 +19,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 {
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
-
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
 	wc.hInstance = hInstance;                   //インスタンスハンドル
 	wc.lpszClassName = WIN_CLASS_NAME;          //ウィンドウクラス名
@@ -60,8 +59,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
    //ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 
+	HRESULT hr; //ここから下はhrが使える
 	//Direct3D初期化
-	Direct3D::Initialize(winW, winH, hWnd);
+	hr = Direct3D::Initialize(winW, winH, hWnd);
+	if (FAILED(hr))
+	{
+		PostQuitMessage(0); //プログラム終了
+	}
+	hr = P->Initialize();
+	if (FAILED(hr))
+	{
+		PostQuitMessage(0); //プログラム終了
+	}
 
 	P->Initialize();
 
