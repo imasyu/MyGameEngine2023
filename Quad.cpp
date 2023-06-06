@@ -1,5 +1,5 @@
 #include "Quad.h"
-
+#include "Camera.h"
 
 //ƒ|ƒCƒ“ƒ^‰Šú‰»
 Quad::Quad():pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr)
