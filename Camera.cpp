@@ -30,23 +30,33 @@ void Camera::Update()
 //位置を設定
 void Camera::SetPosition(XMVECTOR position)
 {
-	XMVECTOR osition = position;
+	position_ = position;
+}
+
+void Camera::SetPosition(XMFLOAT3 position)
+{
+	SetPosition(XMLoadFloat3(&position));
 }
 
 //焦点を設定
 void Camera::SetTarget(XMVECTOR target)
 {
-	XMVECTOR target = target;
+	target_ = target;
+}
+
+void Camera::SetTarget(XMFLOAT3 target)
+{
+	SetTarget(XMLoadFloat3(&target));
 }
 
 //ビュー行列を取得
 XMMATRIX Camera::GetViewMatrix()
 {
-	return GetViewMatrix();
+	return viewMatrix_;
 }
 
 //プロジェクション行列を取得
 XMMATRIX Camera::GetProjectionMatrix()
 {
-	return GetProjectionMatrix();
+	return projMatrix_;
 }

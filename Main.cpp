@@ -73,9 +73,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //プログラム終了
 	}
 
-	P->Initialize();
-
 	Camera::Initialize();
+
+	
+	
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -92,17 +93,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			Camera::Update();
+
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
-			P->Draw();
-
-			Camera::Update();
-
+		
 			//描画処理
+			static int a = 0;
+			a += 1;
+			XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
+			XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
+			//XMMATRIX matS = XMMatrixTranslation(1, 3, 1);
+		    XMMATRIX mat = matR * matT;
+			P->Draw(mat);
 			Direct3D::EndDraw();	
-
-			
 		}
 	}
 	SAFE_DELETE(P);
