@@ -1,11 +1,13 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
-#include "Quad.h"
+//#include "Quad.h"
+#include "Dice.h"
 #include "Camera.h"
 
 
-Quad* P = new Quad();
+//Quad* P = new Quad();
+Dice* D = new Dice();
 
 //定数宣言
 const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -67,7 +69,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	{
 		PostQuitMessage(0); //プログラム終了
 	}
-	hr = P->Initialize();
+	//hr = P->Initialize();
+	hr = D->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //プログラム終了
@@ -100,17 +103,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		
 			//描画処理
-			static int a = 0;
-			a += 1;
-			XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
+			//static int a = 0;
+			//a += 1;
+			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
 			//XMMATRIX matS = XMMatrixTranslation(1, 3, 1);
 		    //XMMATRIX mat = matR * matT;
-			P->Draw(mat);
+			
+			D->Draw(mat);
+			//P->Draw(mat);
 			Direct3D::EndDraw();	
 		}
 	}
-	SAFE_DELETE(P);
+	//SAFE_DELETE(P);
 	Direct3D::Release();
 	return 0;
 
