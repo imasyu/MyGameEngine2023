@@ -103,18 +103,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		
 			//•`‰æˆ—
-			//static int a = 0;
-			//a += 1;
-			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
+			static int a = 0;
+			a += 1;
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 			//XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
 			//XMMATRIX matS = XMMatrixTranslation(1, 3, 1);
 		    //XMMATRIX mat = matR * matT;
 			
-			D->Draw();
+			D->Draw(mat);
 			//P->Draw(mat);
 			Direct3D::EndDraw();	
 		}
 	}
+	SAFE_DELETE(D)
 	//SAFE_DELETE(P);
 	Direct3D::Release();
 	return 0;
