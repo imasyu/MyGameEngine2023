@@ -6,17 +6,18 @@
 using namespace DirectX;
 
 ////コンスタントバッファー
-//struct CONSTANT_BUFFER
-//{
-//	XMMATRIX	matWVP;
-//
-//};
-//
-//struct VERTEX
-//{
-//	XMVECTOR position;
-//	XMVECTOR uv;
-//};
+struct CONSTANT_BUFFER
+{
+	XMMATRIX	matWVP;
+
+};
+
+//頂点情報
+struct VERTEX
+{
+	XMVECTOR position;
+	XMVECTOR uv;
+};
 
 class Quad
 {
@@ -25,9 +26,15 @@ class Quad
 	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
 	Texture* pTexture_;
 public:
+	/// <summary>
+	/// 四角形を表すクラスのコンストラクタ
+	/// </summary>
 	Quad();
 	~Quad();
-	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
-	void Release();
+	virtual HRESULT Initialize();
+	virtual void Draw(XMMATRIX& worldMatrix);
+	virtual void Release();
+	HRESULT CreateBuffers(VERTEX* _ver, int vn, int* _index, int in);
+
+	void SetBuffers(int _in, XMMATRIX& worldMatrix);
 };

@@ -1,36 +1,13 @@
 #pragma once
-#include <DirectXMath.h>
-#include "Direct3D.h"
-#include "Texture.h"
 #include "Quad.h"
 
-using namespace DirectX;
-
-// コンスタントバッファー
-struct CONSTANT_BUFFER
+class Dice : public Quad
 {
-	XMMATRIX	matWVP;
-
-};
-
-struct VERTEX
-{
-	XMVECTOR position;
-	XMVECTOR uv;
-};
-
-class Dice :
-    public Quad
-{
-	ID3D11Buffer* pVertexBuffer_;	//頂点バッファ
-	ID3D11Buffer* pIndexBuffer_;
-	ID3D11Buffer* pConstantBuffer_;	//コンスタントバッファ
-	Texture* pTexture_;
 public:
 	Dice();
 	~Dice();
-	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
+	HRESULT Initialize()override;
+	void Draw(XMMATRIX& worldMatrix)override;
 	void Release();
 };
 
