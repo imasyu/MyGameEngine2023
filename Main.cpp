@@ -1,13 +1,13 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
-//#include "Quad.h"
-#include "Dice.h"
+#include "Quad.h"
+//#include "Dice.h"
 #include "Camera.h"
 
 
-//Quad* P = new Quad();
-Dice* D = new Dice();
+Quad* P = new Quad();
+//Dice* D = new Dice();
 
 //定数宣言
 const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -69,8 +69,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	{
 		PostQuitMessage(0); //プログラム終了
 	}
-	//hr = P->Initialize();
-	hr = D->Initialize();
+	hr = P->Initialize();
+	//hr = D->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //プログラム終了
@@ -103,23 +103,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		
 			//描画処理
-			static float a = 0;
+			/*static float a = 0;
 			a += 0.01;
 			XMMATRIX mata = XMMatrixRotationZ(XMConvertToRadians(a));
 			static float b = 0;
 			b += 0.01;
-			XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
+			XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));*/
+			static float a = 0;
+			a += 0.02;
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 			//XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
 			//XMMATRIX matS = XMMatrixTranslation(1, 3, 1);
-		    XMMATRIX mat = mata * matb;
-			
-			D->Draw(mat);
-			//P->Draw(mat);
+		    //XMMATRIX mat = mata * matb;
+			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(0));
+
+			//D->Draw(mat);
+		    P->Draw(mat);
 			Direct3D::EndDraw();	
 		}
 	}
-	SAFE_DELETE(D)
-	//SAFE_DELETE(P);
+	//SAFE_DELETE(D)
+	SAFE_DELETE(P);
 	Direct3D::Release();
 	return 0;
 
