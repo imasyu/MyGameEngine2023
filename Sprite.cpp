@@ -12,35 +12,6 @@ Sprite::~Sprite()
 
 HRESULT Sprite::Initialize()
 {
-    HRESULT hr = InitVertexData();
-    if (FAILED(hr))
-        return hr;
-
-    hr = InitIndexData();
-    if (FAILED(hr))
-        return hr;
-
-    hr = CreateConstantBuffer();
-    if (FAILED(hr))
-        return hr;
-
-    hr = LoadTexture();
-    if (FAILED(hr))
-        return hr;
-
-    return S_OK;  // ‰Šú‰»‚ª¬Œ÷‚µ‚½ê‡‚Í S_OK ‚ğ•Ô‚·
-}
-
-void Sprite::Draw(XMMATRIX& worldMatrix)
-{
-}
-
-void Sprite::Release()
-{
-}
-
-void Sprite::InitVertexData(VERTEX* _ver, int vn, int* _index, int in)
-{
     HRESULT hr;
     // ’¸“_î•ñ
     VERTEX vertices[] =
@@ -57,6 +28,19 @@ void Sprite::InitVertexData(VERTEX* _ver, int vn, int* _index, int in)
     CreateBuffers(vertices, 4, index, 6);
 
     return S_OK;
+}
+
+void Sprite::Draw(XMMATRIX& worldMatrix)
+{
+}
+
+void Sprite::Release()
+{
+}
+
+void Sprite::InitVertexData(VERTEX* _ver, int vn, int* _index, int in)
+{
+    
 }
 
 HRESULT Sprite::CreateIndexBuffer()
