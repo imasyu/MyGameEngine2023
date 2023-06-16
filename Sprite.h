@@ -51,11 +51,11 @@ public:
 
 private:
 	//---------Initiallizeから呼ばれる関数---------
-	virtual void InitVertexData();       //頂点情報の準備
+	virtual void InitVertexData(VERTEX* _ver, int vn, int* _index, int in);       //頂点情報の準備
 	HRESULT CreateIndexBuffer();         //頂点バッファを作成
 
 	virtual void InitIndexData();        //インデックス情報を準備
-	HRESULT CreateIndexBuffer();         //インデックスバッファを作成
+	HRESULT CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in);         //インデックスバッファを作成
 
 	HRESULT CreateConstantBuffer();      //コンスタントバッファ作成
 
