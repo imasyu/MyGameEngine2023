@@ -132,7 +132,6 @@ HRESULT Sprite::LoadTexture()
 
 void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
 {
-
 }
 
 void Sprite::SetBufferToPipeline()
