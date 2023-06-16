@@ -68,9 +68,9 @@ HRESULT Sprite::CreateVertexBuffer()
 void Sprite::InitIndexData()
 {
     //インデックス情報
-    int index[] = { 0,2,3, 0,1,2 };
+    int index[] = {0,2,3, 0,1,2};
 
-    CreateIndexBuffers(vertices_, 4, index, 6);
+    CreateIndexBuffers(vertices_, 4, index_, 6);
 
     return S_OK;
 }
@@ -132,6 +132,7 @@ HRESULT Sprite::LoadTexture()
 
 void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
 {
+
 }
 
 void Sprite::SetBufferToPipeline()
