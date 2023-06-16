@@ -103,18 +103,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		
 			//•`‰æˆ—
-			static float a = 0;
-			a += 0.01;
-			XMMATRIX mata = XMMatrixRotationZ(XMConvertToRadians(a));
-			static float b = 0;
-			b += 0.01;
-			XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
 			//static float a = 0;
-     		//a += 0.02;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
-			//XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
-			//XMMATRIX matS = XMMatrixTranslation(1, 3, 1);
-		    XMMATRIX mat = mata * matb;
+			//a += 0.01;
+			//XMMATRIX mata = XMMatrixRotationZ(XMConvertToRadians(a));
+			//static float b = 0;
+			//b += 0.01;
+			//XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
+			static float a = 0;
+     		a += 0.01;
+			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(a));
+			XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
+			XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
+		    XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(0));
 
 			D->Draw(mat);
