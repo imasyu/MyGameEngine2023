@@ -74,7 +74,7 @@ void Sprite::InitIndexData()
 
     return S_OK;
 }
-}
+
 
 HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in)
 {
