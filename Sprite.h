@@ -13,6 +13,7 @@ class Sprite
 	//コンスタントバッファー
 	struct CONSTANT_BUFFER
 	{
+		XMMATRIX matWVP;
 		XMMATRIX    matW;     //ワールド行列
 	};
 

@@ -120,20 +120,48 @@ HRESULT Sprite::CreateConstantBuffer()
         return hr;
         //エラー処理
     }
-    pTexture_ = new Texture;
-    pTexture_->Load("Assets\\dice.png");
     return S_OK;
 }
 
 HRESULT Sprite::LoadTexture()
 {
-	return E_NOTIMPL;
+    pTexture_ = new Texture;
+    pTexture_->Load("Assets\\dice.png");
+    return S_OK;
 }
 
 void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
 {
+    CONSTANT_BUFFER cb;
+    cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+    cb.matW = XMMatrixTranspose(worldMatrix);
+
+    D3D11_MAPPED_SUBRESOURCE pdata;
+    Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
+    memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));
+
+    ID3D11SamplerState* pSampler = LoadTexture_->GetSampler();
+    Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
+
+    ID3D11ShaderResourceView* pSRV = LoadTexture_->GetSRV();
+    Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
 }
 
 void Sprite::SetBufferToPipeline()
 {
+    Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
+    //頂点バッファ
+    UINT stride = sizeof(VERTEX);
+    UINT offset = 0;
+    Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
+    // インデックスバッファーをセット
+    stride = sizeof(int);
+    offset = 0;
+    Direct3D::pContext_->IASetIndexBuffer(pIndexBuffer_, DXGI_FORMAT_R32_UINT, 0);
+
+    //コンスタントバッファ
+    Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
+    Direct3D::pContext_->PSSetConstantBuffers(0, 0, &pConstantBuffer_);	//ピクセルシェーダー用
+
+    Direct3D::pContext_->DrawIndexed(_in, 0, 0);
 }
