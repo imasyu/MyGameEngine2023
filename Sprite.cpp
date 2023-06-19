@@ -13,7 +13,31 @@ Sprite::~Sprite()
 
 HRESULT Sprite::Initialize()
 {
-    
+    HRESULT hr;
+    hr = LoadTexture(); // テクスチャの読み込み
+    if (FAILED(hr)) {
+        // エラーハンドリング
+        return hr;
+    }
+
+    hr = CreateVertexBuffer(); // 頂点バッファの作成
+    if (FAILED(hr)) {
+        // エラーハンドリング
+        return hr;
+    }
+
+    hr = CreateIndexBuffer(); // インデックスバッファの作成
+    if (FAILED(hr)) {
+        // エラーハンドリング
+        return hr;
+    }
+
+    hr = CreateConstantBuffer(); // コンスタントバッファの作成
+    if (FAILED(hr)) {
+        // エラーハンドリング
+        return hr;
+    }
+    return S_OK;
 }
 
 void Sprite::Draw(XMMATRIX& worldMatrix)
@@ -70,9 +94,7 @@ void Sprite::InitIndexData()
     //インデックス情報
     int index[] = {0,2,3, 0,1,2};
 
-    CreateIndexBuffers(vertices_, 4, index_, 6);
-
-    return S_OK;
+    CreateIndexBuffer(vertices_, 4, index, 6);
 }
 
 
