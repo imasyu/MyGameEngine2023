@@ -64,7 +64,7 @@ void Sprite::Release()
 void Sprite::InitVertexData()
 {
     // 頂点情報
-    VERTEX vertices[] =
+    VERTEX vertices_[] =
     {
         {XMVectorSet(-1.0f, 1.0f, 0.0f, 0.0f),XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f)},	// 正面四角形の頂点（左上）
         {XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,  0.0f, 0.0f, 0.0f)},	// 正面四角形の頂点（右上）
