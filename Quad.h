@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include "Direct3D.h"
 #include "Texture.h"
+#include <vector>
 
 using namespace DirectX;
 

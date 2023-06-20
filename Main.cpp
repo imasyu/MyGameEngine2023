@@ -113,12 +113,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//b += 0.01;
 			//XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
 			static float a = 0;
-     		a += 0.01;
-			XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
-			XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
-			XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
-		    XMMATRIX mat = matS * matT * matR;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(0));
+     		a += 0.1;
+			//XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
+			//XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
+			//XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
+		    //XMMATRIX mat = matS * matT * matR;
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 
 			//D->Draw(mat);
 		    //P->Draw(mat);
@@ -126,6 +126,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::EndDraw();	
 		}
 	}
+
+	XMMATRIX mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
+
 	//SAFE_DELETE(D)
 	//SAFE_DELETE(P);
 	SAFE_DELETE(S);
