@@ -4,10 +4,10 @@
 class Dice : public Quad
 {
 public:
-	Dice();
-	~Dice();
-	HRESULT Initialize()override;
-	void Draw(XMMATRIX& worldMatrix)override;
-	void Release();
+	//頂点情報の準備
+	void InitVertexData()	override;
+
+	//インデックス情報を準備
+	void InitIndexData()	override;
 };
 

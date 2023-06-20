@@ -34,11 +34,11 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORDE, float4 normal : NORMAL)
 
 	//ローカル座標に、ワールド・ビュー・プロジェクション行列をかけて
 	//スクリーン座標に変換し、ピクセルシェーダーへ
-	outData.pos = mul(pos, matNormal);
+	outData.pos = mul(pos, matWVP);
 	outData.uv = uv;
 
-	normal = mul(normal, matW);
-	float4 light = float4(-1, 0.5, -0.7, 0);
+	normal = mul(normal, matNormal);
+	float4 light = float4(-1, 0.8, -0.3, 0);
 	light = normalize(light);
 	outData.color = clamp(dot(normal, light), 0, 1);
 

@@ -2,14 +2,14 @@
 #include <Windows.h>
 #include "Direct3D.h"
 //#include "Quad.h"
-//#include "Dice.h"
+#include "Dice.h"
 #include "Sprite.h"
 #include "Camera.h"
 
 
-//Quad* P = new Quad();
-//Dice* D = new Dice();
-Sprite* S = new Sprite();
+//Quad* pQuad;
+//Dice* pDice;
+Sprite* pSprite;
 
 //定数宣言
 const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -71,9 +71,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	{
 		PostQuitMessage(0); //プログラム終了
 	}
-	//hr = P->Initialize();
-	//hr = D->Initialize();
-	hr = S->Initialize();
+	//pQuad = new Quad;
+	//pQuad->Initialize();
+	//pDice = new Dice;
+	//pDice->Initialize();
+	pSprite = new Sprite;
+
+	Dice* pDice = new Dice;
+	hr = pDice->Initialize();
+	Sprite* pSprite = new Sprite;
+	hr = pSprite->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //プログラム終了
@@ -112,26 +119,34 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//static float b = 0;
 			//b += 0.01;
 			//XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
-			static float a = 0;
-     		a += 0.1;
+			//static float a = 0;
+     		//a += 0.1;
 			//XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
 			//XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
 		    //XMMATRIX mat = matS * matT * matR;
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
+			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
+			static float angle = 0;
+			angle += 0.05;
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
 
-			//D->Draw(mat);
-		    //P->Draw(mat);
-			S->Draw(mat);
+			//mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
+			Transform spriteTransform;
+			spriteTransform.scale_.x = 512.0f / 800.0f;
+			spriteTransform.scale_.y = 256.0f / 600.0f;
+
+			//pQuad->Draw(mat);
+			//pDice->Draw(mat);
+			pDice->Draw(spriteTransform);
 			Direct3D::EndDraw();	
 		}
 	}
 
-	XMMATRIX mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
+	
 
-	//SAFE_DELETE(D)
-	//SAFE_DELETE(P);
-	SAFE_DELETE(S);
+	//SAFE_DELETE(pQuad);
+	SAFE_DELETE(pDice);
+	SAFE_DELETE(pSprite);
 	Direct3D::Release();
 	return 0;
 
