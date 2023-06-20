@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple3Dr.hlsl" />
-    <FxCompile Include="Sinmple2D.hlsl" />
+    <FxCompile Include="Simple2Dr.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

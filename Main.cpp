@@ -2,12 +2,14 @@
 #include <Windows.h>
 #include "Direct3D.h"
 //#include "Quad.h"
-#include "Dice.h"
+//#include "Dice.h"
+#include "Sprite.h"
 #include "Camera.h"
 
 
 //Quad* P = new Quad();
-Dice* D = new Dice();
+//Dice* D = new Dice();
+Sprite* S = new Sprite();
 
 //定数宣言
 const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -70,7 +72,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //プログラム終了
 	}
 	//hr = P->Initialize();
-	hr = D->Initialize();
+	//hr = D->Initialize();
+	hr = S->Initialize();
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //プログラム終了
@@ -117,13 +120,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		    XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(0));
 
-			D->Draw(mat);
+			//D->Draw(mat);
 		    //P->Draw(mat);
+			S->Draw(mat);
 			Direct3D::EndDraw();	
 		}
 	}
-	SAFE_DELETE(D)
+	//SAFE_DELETE(D)
 	//SAFE_DELETE(P);
+	SAFE_DELETE(S);
 	Direct3D::Release();
 	return 0;
 

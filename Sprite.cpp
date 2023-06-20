@@ -13,36 +13,43 @@ Sprite::~Sprite()
 
 HRESULT Sprite::Initialize()
 {
-    HRESULT hr;
-    hr = LoadTexture(); // テクスチャの読み込み
-    if (FAILED(hr)) {
-        // エラーハンドリング
+    InitVertexData();
+
+    HRESULT hr = CreateVertexBuffer();
+    if (FAILED(hr))
+    {
         return hr;
     }
 
-    hr = CreateVertexBuffer(); // 頂点バッファの作成
-    if (FAILED(hr)) {
-        // エラーハンドリング
+    InitIndexData();
+
+    hr = CreateIndexBuffer();
+    if (FAILED(hr))
+    {
         return hr;
     }
 
-    hr = CreateIndexBuffer(); // インデックスバッファの作成
-    if (FAILED(hr)) {
-        // エラーハンドリング
+    hr = CreateConstantBuffer();
+    if (FAILED(hr))
+    {
         return hr;
     }
 
-    hr = CreateConstantBuffer(); // コンスタントバッファの作成
-    if (FAILED(hr)) {
-        // エラーハンドリング
+    hr = LoadTexture();
+    if (FAILED(hr))
+    {
         return hr;
     }
+
     return S_OK;
 }
 
 void Sprite::Draw(XMMATRIX& worldMatrix)
 {
     PassDataToCB(worldMatrix);
+    SetBufferToPipeline();
+
+    Direct3D::pContext_->DrawIndexed(indexNum_, 0, 0);
 }
 
 void Sprite::Release()
@@ -54,9 +61,8 @@ void Sprite::Release()
     SAFE_RELEASE(pVertexBuffer_);
 }
 
-void Sprite::InitVertexData(VERTEX* _ver, int vn, int* _index, int in)
+void Sprite::InitVertexData()
 {
-    HRESULT hr;
     // 頂点情報
     VERTEX vertices[] =
     {
@@ -72,14 +78,14 @@ HRESULT Sprite::CreateVertexBuffer()
     HRESULT hr;
     // 頂点データ用バッファの設定
     D3D11_BUFFER_DESC bd_vertex;
-    bd_vertex.ByteWidth = sizeof(VERTEX) * _vn;
+    bd_vertex.ByteWidth = sizeof(VERTEX) * vertexNum_;
     bd_vertex.Usage = D3D11_USAGE_DEFAULT;
     bd_vertex.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     bd_vertex.CPUAccessFlags = 0;
     bd_vertex.MiscFlags = 0;
     bd_vertex.StructureByteStride = 0;
     D3D11_SUBRESOURCE_DATA data_vertex;
-    data_vertex.pSysMem = vertices_;
+    data_vertex.pSysMem = pVertexBuffer_;
     hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
     if (FAILED(hr))
     {
@@ -87,6 +93,7 @@ HRESULT Sprite::CreateVertexBuffer()
         return hr;
         //エラー処理
     }
+    return S_OK;
 }
 
 void Sprite::InitIndexData()
@@ -94,23 +101,24 @@ void Sprite::InitIndexData()
     //インデックス情報
     int index[] = {0,2,3, 0,1,2};
 
-    CreateIndexBuffer(vertices_, 4, index, 6);
+
+    CreateIndexBuffer();
 }
 
 
-HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in)
+HRESULT Sprite::CreateIndexBuffer()
 {
     HRESULT hr;
     // インデックスバッファを生成する
     D3D11_BUFFER_DESC   bd;
     bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(int) * _in;
+    bd.ByteWidth = sizeof(int) * indexNum_;
     bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
     bd.CPUAccessFlags = 0;
     bd.MiscFlags = 0;
 
     D3D11_SUBRESOURCE_DATA InitData;
-    InitData.pSysMem = _index;
+    InitData.pSysMem = pIndexBuffer_;
     InitData.SysMemPitch = 0;
     InitData.SysMemSlicePitch = 0;
     hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
@@ -120,6 +128,7 @@ HRESULT Sprite::CreateIndexBuffer(VERTEX* _ver, int vn, int* _index, int in)
         return hr;
         //エラー処理
     }
+    return S_OK;
 }
 
 HRESULT Sprite::CreateConstantBuffer()
@@ -162,10 +171,10 @@ void Sprite::PassDataToCB(DirectX::XMMATRIX& worldMatrix)
     Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
     memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));
 
-    ID3D11SamplerState* pSampler = LoadTexture_->GetSampler();
+    ID3D11SamplerState* pSampler = pTexture_->GetSampler();
     Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
 
-    ID3D11ShaderResourceView* pSRV = LoadTexture_->GetSRV();
+    ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
     Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
 }
 
@@ -184,6 +193,4 @@ void Sprite::SetBufferToPipeline()
     //コンスタントバッファ
     Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
     Direct3D::pContext_->PSSetConstantBuffers(0, 0, &pConstantBuffer_);	//ピクセルシェーダー用
-
-    Direct3D::pContext_->DrawIndexed(_in, 0, 0);
 }

@@ -2,6 +2,13 @@
 #include <d3d11.h>
 #include <assert.h>
 
+//enum SHADER_TYPE
+//{
+//	SHADER_2D,
+//	SHADER_3D,
+//	SHADER_MAX,
+//};
+
 //ƒŠƒ“ƒJ
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")

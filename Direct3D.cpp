@@ -206,7 +206,7 @@ HRESULT Direct3D::InitShader()
 
 	//ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
-	D3DCompileFromFile(L"Simple3Dr.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	D3DCompileFromFile(L"Simple2Dr.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
 	assert(pCompilePS != nullptr);
 	hr = pDevice_->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader_);
 	if (FAILED(hr))
