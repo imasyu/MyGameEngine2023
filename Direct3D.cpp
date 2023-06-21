@@ -75,6 +75,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	if (FAILED(hr))
 	{
 		//エラー処理
+		MessageBox(NULL, "デバイス、コンテキスト、スワップチェインの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
 	///////////////////////////レンダーターゲットビュー作成///////////////////////////////
@@ -84,6 +85,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	if (FAILED(hr))
 	{
 		//エラー処理
+		MessageBox(NULL, "バックバッファの取得に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
 
@@ -92,6 +94,7 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	if (FAILED(hr))
 	{
 		//エラー処理
+		MessageBox(NULL, "レンダーターゲットビューの作成に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
     //一時的にバックバッファを取得しただけなので解放
@@ -281,22 +284,18 @@ HRESULT Direct3D::InitShader2D()
 	//頂点インプットレイアウト
 	std::vector<D3D11_INPUT_ELEMENT_DESC> layout = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },	//位置
-		{ "TEXCOORDE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, sizeof(DirectX::XMVECTOR) , D3D11_INPUT_PER_VERTEX_DATA, 0 },//UV座標
 	};
-	
-
-	//hr = pDevice_->CreateInputLayout(layout, sizeof(layout)/sizeof(D3D11_INPUT_CLASSIFICATION), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_);
-	hr = pDevice_->CreateInputLayout(layout.data(), layout.size() / sizeof(D3D11_INPUT_CLASSIFICATION), pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout_);
-
 	hr = pDevice_->CreateInputLayout(layout.data(), layout.size(),
 		pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &(shaderBundle[SHADER_2D].pVertexLayout_));
-
 	if (FAILED(hr))
 	{
 		//エラー処理
+		MessageBox(NULL, "頂点インプットレイアウトの作成に失敗しました", "エラー", MB_OK);
+		//解放処理
+		SAFE_RELEASE(pCompileVS);
 		return hr;
 	}
-
 	SAFE_RELEASE(pCompileVS);
 
 	//ピクセルシェーダの作成（コンパイル）
