@@ -1,11 +1,8 @@
 #include "Direct3D.h"
 #include "Texture.h"
-#include <DirectXMath.h>
 #include <vector>
 #include "Transform.h"
 #pragma once
-
-using namespace DirectX;
 
 #define SAFE_DELETE_ARRAY(p) if(p !=Å@nullptr) {delete[p; p != nullptr;] }
 

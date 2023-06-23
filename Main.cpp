@@ -2,22 +2,24 @@
 #include <Windows.h>
 #include "Direct3D.h"
 //#include "Quad.h"
+#include "Camera.h"
 #include "Dice.h"
 #include "Sprite.h"
-#include "Camera.h"
+#include "Transform.h"
 
-
-//Quad* pQuad;
-//Dice* pDice;
-Sprite* pSprite;
 
 //定数宣言
-const LPCSTR WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
+const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
 const int WINDOW_WIDTH = 800;  //ウィンドウの幅
 const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+
+//Quad* pQuad;
+//Dice* pDice;
+
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -26,7 +28,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
 	wc.hInstance = hInstance;                   //インスタンスハンドル
-	wc.lpszClassName = WIN_CLASS_NAME;          //ウィンドウクラス名
+	wc.lpszClassName = WIN_CLASS_NAME;            //ウィンドウクラス名
 	wc.lpfnWndProc = WndProc;                   //ウィンドウプロシージャ
 	wc.style = CS_VREDRAW | CS_HREDRAW;         //スタイル（デフォルト）
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION); //アイコン
@@ -36,8 +38,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景（白）
-
-	RegisterClassEx(&wc);  //クラスを登録
+	RegisterClassEx(&wc); //クラスを登録
 
 	//ウィンドウサイズの計算
 	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
@@ -45,51 +46,43 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	int winW = winRect.right - winRect.left;     //ウィンドウ幅
 	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
 
-   //ウィンドウを作成
+	//ウィンドウを作成
 	HWND hWnd = CreateWindow(
 		WIN_CLASS_NAME,         //ウィンドウクラス名
 		"サンプルゲーム",     //タイトルバーに表示する内容
 		WS_OVERLAPPEDWINDOW, //スタイル（普通のウィンドウ）
 		CW_USEDEFAULT,       //表示位置左（おまかせ）
 		CW_USEDEFAULT,       //表示位置上（おまかせ）
-		winW,                 //ウィンドウ幅
-		winH,                 //ウィンドウ高さ
+		winW,               //ウィンドウ幅
+		winH,               //ウィンドウ高さ
 		NULL,                //親ウインドウ（なし）
 		NULL,                //メニュー（なし）
 		hInstance,           //インスタンス
 		NULL                 //パラメータ（なし）
 	);
 
-
-   //ウィンドウを表示
+	//ウィンドウを表示
 	ShowWindow(hWnd, nCmdShow);
 
-	HRESULT hr; //ここから下はhrが使える
 	//Direct3D初期化
+	HRESULT hr;
 	hr = Direct3D::Initialize(winW, winH, hWnd);
 	if (FAILED(hr))
 	{
-		PostQuitMessage(0); //プログラム終了
+		PostQuitMessage(0); //エラー起きたら強制終了
 	}
+
+	Camera::Initialize();
+
+
+
 	//pQuad = new Quad;
 	//pQuad->Initialize();
-	//pDice = new Dice;
-	//pDice->Initialize();
-	pSprite = new Sprite;
 
 	Dice* pDice = new Dice;
 	hr = pDice->Initialize();
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
-	if (FAILED(hr))
-	{
-		PostQuitMessage(0); //プログラム終了
-	}
-
-	Camera::Initialize();
-
-	
-	
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -110,8 +103,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			//ゲームの処理
 			Direct3D::BeginDraw();
+			static float angle = 0;
+			angle += 0.05;
+			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
 
-		
+			Transform diceTransform;
+			diceTransform.position_.y = 3.0f;
+			diceTransform.rotate_.y = angle;
+			pDice->Draw(diceTransform);
+
+			////mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
+			Transform spriteTransform;
+			spriteTransform.scale_.x = 512.0f / 800.0f;
+			spriteTransform.scale_.y = 256.0f / 600.0f;
+			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
+
 			//描画処理
 			//static float a = 0;
 			//a += 0.01;
@@ -120,36 +126,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//b += 0.01;
 			//XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
 			//static float a = 0;
-     		//a += 0.1;
+			//a += 0.1;
 			//XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
 			//XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
-		    //XMMATRIX mat = matS * matT * matR;
+			//XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
-			static float angle = 0;
-			angle += 0.05;
-			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0, 3, 0);
+			pSprite->Draw(spriteTransform);
 
-			//mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
-			Transform spriteTransform;
-			spriteTransform.scale_.x = 512.0f / 800.0f;
-			spriteTransform.scale_.y = 256.0f / 600.0f;
+			Direct3D::EndDraw();
 
-			//pQuad->Draw(mat);
-			//pDice->Draw(mat);
-			pDice->Draw(spriteTransform);
-			Direct3D::EndDraw();	
 		}
 	}
-
-	
-
 	//SAFE_DELETE(pQuad);
 	SAFE_DELETE(pDice);
 	SAFE_DELETE(pSprite);
-	Direct3D::Release();
-	return 0;
 
+	Direct3D::Release();
+
+	return 0;
 }
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
@@ -163,5 +158,3 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
-
-

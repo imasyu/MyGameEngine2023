@@ -1,7 +1,6 @@
 #include "Texture.h"
 #include "Direct3D.h"
 #include <DirectXTex.h>
-#include <wincodec.h>
 
 #pragma comment( lib, "WindowsCodecs.lib" )
 
