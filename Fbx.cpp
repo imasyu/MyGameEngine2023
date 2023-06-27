@@ -1,4 +1,5 @@
 #include "Fbx.h"
+#include "Direct3D.h"
 #include "Camera.h"
 
 Fbx::Fbx()
@@ -30,7 +31,7 @@ HRESULT Fbx::Load(std::string fileName)
 
 	InitVertex(mesh);		//頂点バッファ準備
 	InitIndex(mesh);		//インデックスバッファ準備
-	InitConstantBuffer();	//コンスタントバッファ準備
+	IntConstantBuffer();	//コンスタントバッファ準備
 
 
 
@@ -117,7 +118,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 	}
 }
 
-void Fbx::InitConstantBuffer()
+void Fbx::IntConstantBuffer()
 {
 	D3D11_BUFFER_DESC cb;
 	cb.ByteWidth = sizeof(CONSTANT_BUFFER);

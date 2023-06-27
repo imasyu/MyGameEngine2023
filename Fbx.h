@@ -1,8 +1,8 @@
 #pragma once
+
 #include <d3d11.h>
 #include <fbxsdk.h>
 #include <string>
-#include "Direct3D.h"
 #include "Transform.h"
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
@@ -22,9 +22,8 @@ class Fbx
 		XMVECTOR position;
 	};
 
-	int vertexCount_;     //í∏ì_êî
-	int polygonCount_;    //É|ÉäÉSÉìêî
-	int indexCount_;      //ÉCÉìÉfÉbÉNÉXêî
+	int vertexCount_;	//Åf?Åg_?Åh
+	int polygonCount_;	//?|???S?Åg?Åh
 
 	ID3D11Buffer* pVertexBuffer_;
 	ID3D11Buffer* pIndexBuffer_;
@@ -32,12 +31,11 @@ class Fbx
 
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);
-	void InitConstantBuffer();
+	void IntConstantBuffer();
 public:
+
 	Fbx();
-	HRESULT Load(std::string fileName);	
+	HRESULT Load(std::string fileName);
 	void    Draw(Transform& transform);
 	void    Release();
 };
-
-

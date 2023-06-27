@@ -71,12 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\lib\vs2017\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\lib\vs2019\x64\debug;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\lib\vs2017\x64\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2019.5\lib\vs2017\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\release;C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\lib\vs2019\x64\release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\include</IncludePath>
+    <LibraryPath>C:\Program Files\Autodesk\FBX\FBX SDK\2020.2\lib\vs2019\x64\debug</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -20,7 +20,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //Quad* pQuad;
 //Dice* pDice;
-
+Fbx* pFbx;
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -84,8 +84,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	hr = pDice->Initialize();
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
-	Fbx* pFbx = new Fbx;
-	hr = pFbx->Load("Assets/Oden.fbx");
+	pFbx = new Fbx;
+	pFbx->Load("Assets/Oden .fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -121,7 +121,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			spriteTransform.scale_.y = 256.0f / 600.0f;
 			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
 
-			pFbx->Draw(diceTransform);
+			
 
 			//描画処理
 			//static float a = 0;
@@ -138,6 +138,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = matS * matT * matR;
 			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 			pSprite->Draw(spriteTransform);
+
+			pFbx->Draw(diceTransform);
 
 			Direct3D::EndDraw();
 
