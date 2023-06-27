@@ -1,7 +1,7 @@
 #include "Fbx.h"
 #include "Camera.h"
 
-Fbx::Fbx()
+Fbx::Fbx() : pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), 
 {
 }
 
@@ -146,14 +146,6 @@ void Fbx::PassDataToCB(Transform transform)
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 
-	ID3D11SamplerState* pSampler = pTexture_->GetSampler();
-
-	Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
-
-	ID3D11ShaderResourceView* pSRV = pTexture_->GetSRV();
-
-	Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
-
 	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
 
 }
@@ -195,4 +187,7 @@ void Fbx::Draw(Transform& transform)
 
 void Fbx::Release()
 {
+	SAFE_RELEASE(pVertexBuffer_);
+	SAFE_RELEASE(pIndexBuffer_);
+	SAFE_RELEASE(pConstantBuffer_);
 }

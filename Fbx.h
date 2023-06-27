@@ -4,7 +4,6 @@
 #include <string>
 #include "Direct3D.h"
 #include "Transform.h"
-#include "Texture.h"
 
 #pragma comment(lib, "LibFbxSDK-Md.lib")
 #pragma comment(lib, "LibXml2-Md.lib")
@@ -30,7 +29,6 @@ protected:
 	ID3D11Buffer* pVertexBuffer_;
 	ID3D11Buffer* pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
-	Texture* pTexture_;
 
 public:
 
