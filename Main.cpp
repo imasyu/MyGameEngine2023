@@ -4,6 +4,7 @@
 //#include "Quad.h"
 #include "Camera.h"
 #include "Dice.h"
+#include "Fbx.h"
 #include "Sprite.h"
 #include "Transform.h"
 
@@ -83,6 +84,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	hr = pDice->Initialize();
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
+	Fbx* pFbx = new Fbx;
+	hr = pFbx->Load("Assets/Oden.fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -110,13 +113,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Transform diceTransform;
 			diceTransform.position_.y = 3.0f;
 			diceTransform.rotate_.y = angle;
-			pDice->Draw(diceTransform);
+			//pDice->Draw(diceTransform);
 
 			////mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
 			Transform spriteTransform;
 			spriteTransform.scale_.x = 512.0f / 800.0f;
 			spriteTransform.scale_.y = 256.0f / 600.0f;
 			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
+
+			pFbx->Draw(diceTransform);
 
 			//描画処理
 			//static float a = 0;

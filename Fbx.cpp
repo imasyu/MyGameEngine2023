@@ -1,7 +1,7 @@
 #include "Fbx.h"
 #include "Camera.h"
 
-Fbx::Fbx() : pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), 
+Fbx::Fbx()
 {
 }
 
@@ -25,13 +25,14 @@ HRESULT Fbx::Load(std::string fileName)
 	FbxMesh* mesh = pNode->GetMesh();
 
 	//各情報の個数を取得
-
 	vertexCount_ = mesh->GetControlPointsCount();	//頂点の数
 	polygonCount_ = mesh->GetPolygonCount();	//ポリゴンの数
 
-	InitVertex(mesh);                  //頂点バッファ準備
-	InitIndex(mesh);                   //インデックスバッファ準備
-	InitConstantBuffer();              //コンスタントバッファ準備
+	InitVertex(mesh);		//頂点バッファ準備
+	InitIndex(mesh);		//インデックスバッファ準備
+	InitConstantBuffer();	//コンスタントバッファ準備
+
+
 
 	//マネージャ解放
 	pFbxManager->Destroy();
@@ -59,7 +60,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 		}
 	}
 
-	// 頂点バッファ作成
+	//頂点バッファ
 	HRESULT hr;
 	D3D11_BUFFER_DESC bd_vertex;
 	bd_vertex.ByteWidth = sizeof(VERTEX) * vertexCount_;
@@ -76,6 +77,8 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
 	}
 }
+
+
 
 //インデックスバッファ準備
 void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
@@ -114,7 +117,6 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 	}
 }
 
-//インデックスバッファ準備
 void Fbx::InitConstantBuffer()
 {
 	D3D11_BUFFER_DESC cb;
@@ -134,10 +136,11 @@ void Fbx::InitConstantBuffer()
 	}
 }
 
-//コンスタントバッファに各種情報を渡す
-void Fbx::PassDataToCB(Transform transform)
+void Fbx::Draw(Transform& transform)
 {
-
+	Direct3D::SetShader(SHADER_3D);
+	transform.Calclation();//トランスフォームを計算
+	//コンスタントバッファに情報を渡す
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
@@ -146,13 +149,13 @@ void Fbx::PassDataToCB(Transform transform)
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 
+
+
 	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
 
-}
 
-//各バッファをパイプラインにセット
-void Fbx::SetBufferToPipeline()
-{
+
+	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
 	//頂点バッファ
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
@@ -167,27 +170,10 @@ void Fbx::SetBufferToPipeline()
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
-	Direct3D::pContext_->DrawIndexed(indexCount_, 0, 0);
-
-}
-
-void Fbx::Draw(Transform& transform)
-{
-	Direct3D::SetShader(SHADER_3D);
-	transform.Calclation();//トランスフォームを計算
-	//コンスタントバッファに情報を渡す
-	PassDataToCB(transform);
-
-	//頂点バッファ、インデックスバッファ、コンスタントバッファをパイプラインにセット
-	SetBufferToPipeline();
-
 	//描画
-	Direct3D::pContext_->DrawIndexed(indexCount_, 0, 0);
+	Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
 }
 
 void Fbx::Release()
 {
-	SAFE_RELEASE(pVertexBuffer_);
-	SAFE_RELEASE(pIndexBuffer_);
-	SAFE_RELEASE(pConstantBuffer_);
 }
