@@ -1,16 +1,26 @@
 #pragma once
-
 #include <d3d11.h>
 #include <fbxsdk.h>
 #include <string>
+#include <vector>
 #include "Transform.h"
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+using std::vector;
+
+class Texture;
+
 class Fbx
 {
+	//ƒ}ƒeƒŠƒAƒ‹
+	struct MATERIAL
+	{
+		Texture* pTexture;
+	};
+
 	struct CONSTANT_BUFFER
 	{
 		XMMATRIX	matWVP;
@@ -20,18 +30,24 @@ class Fbx
 	struct VERTEX
 	{
 		XMVECTOR position;
+		XMVECTOR uv;
+		XMVECTOR normal;
 	};
 
-	int vertexCount_;	//f?g_?h
-	int polygonCount_;	//?|???S?g?h
+	int vertexCount_;	//’¸“_”
+	int polygonCount_;	//ƒ|ƒŠƒSƒ“”
+	int materialCount_; //ƒ}ƒeƒŠƒAƒ‹‚ÌŒÂ”
 
 	ID3D11Buffer* pVertexBuffer_;
-	ID3D11Buffer* pIndexBuffer_;
+	ID3D11Buffer** pIndexBuffer_;
 	ID3D11Buffer* pConstantBuffer_;
+	MATERIAL* pMaterialList_;
+	vector <int> indexCount_;
 
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);
 	void IntConstantBuffer();
+	void InitMaterial(fbxsdk::FbxNode* pNode);
 public:
 
 	Fbx();
