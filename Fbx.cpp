@@ -213,7 +213,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 
 			//ファイルからテクスチャ作成
 			pMaterialList_[i].pTexture = new Texture;
-			HRESULT hr = pMaterialList_[i].pTexture->Load("Oden.jpg");
+			HRESULT hr = pMaterialList_[i].pTexture->Load(name);
 			assert(hr == S_OK);
 		}
 
