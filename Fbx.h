@@ -19,19 +19,22 @@ class Fbx
 	struct MATERIAL
 	{
 		Texture* pTexture;
+		XMFLOAT4 diffuse;
 	};
 
 	struct CONSTANT_BUFFER
 	{
 		XMMATRIX	matWVP;
 		XMMATRIX	matNormal;
+		XMFLOAT4    diffuseColor;
+		int         isTextured;
 	};
 
 	struct VERTEX
 	{
-		XMVECTOR position;
-		XMVECTOR uv;
-		XMVECTOR normal;
+		XMVECTOR position;  //à íu
+		XMVECTOR uv;        //UVç¿ïW
+		XMVECTOR normal;    
 	};
 
 	int vertexCount_;	//í∏ì_êî
