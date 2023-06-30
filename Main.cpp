@@ -7,6 +7,7 @@
 #include "Fbx.h"
 #include "Sprite.h"
 #include "Transform.h"
+#include "Input.h"
 
 
 //定数宣言
@@ -68,6 +69,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//Direct3D初期化
 	HRESULT hr;
 	hr = Direct3D::Initialize(winW, winH, hWnd);
+	//DirectInputの初期化
+	Input::Initialize(hWnd);
 	if (FAILED(hr))
 	{
 		PostQuitMessage(0); //エラー起きたら強制終了
@@ -102,9 +105,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			if (Input::IsKey(DIK_ESCAPE))
+			{
+				PostQuitMessage(0);
+			}
 			Camera::Update();
 
 			//ゲームの処理
+			//入力情報の更新
+			Input::Update();
 			Direct3D::BeginDraw();
 			static float angle = 0;
 			angle += 0.05;
@@ -150,6 +159,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_DELETE(pQuad);
 	SAFE_DELETE(pDice);
 	SAFE_DELETE(pSprite);
+	SAFE_DELETE(pFbx);
+	Input::Release();
 
 	Direct3D::Release();
 
