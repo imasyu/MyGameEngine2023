@@ -1,13 +1,9 @@
 //インクルード
 #include <Windows.h>
-#include "Direct3D.h"
-//#include "Quad.h"
-#include "Camera.h"
-#include "Dice.h"
-#include "Fbx.h"
-#include "Sprite.h"
-#include "Transform.h"
-#include "Input.h"
+#include "Engine/Direct3D.h"
+#include "Engine/Camera.h"
+#include "Engine/Input.h"
+
 
 
 //定数宣言
@@ -17,11 +13,6 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-
-//Quad* pQuad;
-//Dice* pDice;
-Fbx* pFbx;
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -76,19 +67,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //エラー起きたら強制終了
 	}
 
+	//カメラの初期化
 	Camera::Initialize();
-
-
-
-	//pQuad = new Quad;
-	//pQuad->Initialize();
-
-	Dice* pDice = new Dice;
-	hr = pDice->Initialize();
-	Sprite* pSprite = new Sprite;
-	hr = pSprite->Initialize();
-	pFbx = new Fbx;
-	pFbx->Load("Assets/Oden .fbx");
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -113,74 +93,23 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				{
 					PostQuitMessage(0);
 				}
-				
 			}
-			Camera::Update();
 
 			//ゲームの処理
+			Camera::Update();
+
 			//入力情報の更新
 			Input::Update();
+
+			//描画
 			Direct3D::BeginDraw();
-			static float angle = 0;
-			angle += 0.05;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(angle)) * XMMatrixTranslation(0,3,0);
-
-			Transform diceTransform;
-			//diceTransform.position_.y = 3.0f;
-			diceTransform.position_.y = -2.0f;
-			diceTransform.position_.z = 3.0f;
-			diceTransform.rotate_.y = angle;
-			//pDice->Draw(diceTransform);
-
-			////mat = XMMatrixScaling(512.0f / 800.0f, 256.0f / 600.0f, 1.0f);
-			//Transform spriteTransform;
-			//spriteTransform.scale_.x = 512.0f / 800.0f;
-			//spriteTransform.scale_.y = 256.0f / 600.0f;
-			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
-
-			static float position;
-
-
-			if (Input::IsKey(DIK_RIGHT))
-			{
-				position += 0.01f;
-			}
-
-			if (Input::IsKey(DIK_LEFT))
-			{
-				position -= 0.01f;
-			}
-
-			diceTransform.position_.x += position;
-
-			//描画処理
-			//static float a = 0;
-			//a += 0.01;
-			//XMMATRIX mata = XMMatrixRotationZ(XMConvertToRadians(a));
-			//static float b = 0;
-			//b += 0.01;
-			//XMMATRIX matb = XMMatrixRotationX(XMConvertToRadians(b));
-			//static float a = 0;
-			//a += 0.1;
-			//XMMATRIX matR = XMMatrixRotationZ(XMConvertToRadians(a));
-			//XMMATRIX matT = XMMatrixTranslation(2, 0, 0);
-			//XMMATRIX matS = XMMatrixTranslation(2.0, 2.0, 2.0);
-			//XMMATRIX mat = matS * matT * matR;
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
-			//pSprite->Draw(spriteTransform);
-
-			pFbx->Draw(diceTransform);
+			
 
 			Direct3D::EndDraw();
 
 		}
 	}
-	//SAFE_DELETE(pQuad);
-	SAFE_DELETE(pDice);
-	SAFE_DELETE(pSprite);
-	SAFE_DELETE(pFbx);
 	Input::Release();
-
 	Direct3D::Release();
 
 	return 0;
