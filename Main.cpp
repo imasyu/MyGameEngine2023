@@ -138,7 +138,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//spriteTransform.scale_.y = 256.0f / 600.0f;
 			//mat = XMMatrixScaling(512.0f/800.0f, 256.0f/600.0f, 1.0f);
 
-			
+			static float position;
+
+
+			if (Input::IsKey(DIK_RIGHT))
+			{
+				position += 0.01f;
+			}
+
+			if (Input::IsKey(DIK_LEFT))
+			{
+				position -= 0.01f;
+			}
+
+			diceTransform.position_.x += position;
 
 			//ï`âÊèàóù
 			//static float a = 0;
