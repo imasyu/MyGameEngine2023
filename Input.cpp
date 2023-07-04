@@ -33,6 +33,7 @@ namespace Input
 		return false;
 	}
 
+	//‰Ÿ‚µ‚½uŠÔ
 	bool IsKeyDown(int keyCode)
 	{
 		// ¡‚Í‰Ÿ‚µ‚Ä‚ÄA‘O‰ñ‚Í‰Ÿ‚µ‚Ä‚È‚¢
@@ -43,6 +44,7 @@ namespace Input
 		return false;
 	}
 
+	//—£‚µ‚½uŠÔ
 	bool IsKeyUp(int keyCode)
 	{
 		// ‚³‚Á‚«‚Í‰Ÿ‚µ‚Ä‚ÄA¡‚Í‰Ÿ‚µ‚Ä‚È‚¢ó‘Ô
