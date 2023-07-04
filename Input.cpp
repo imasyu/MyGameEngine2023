@@ -48,7 +48,7 @@ namespace Input
 	bool IsKeyUp(int keyCode)
 	{
 		// ‚³‚Á‚«‚Í‰Ÿ‚µ‚Ä‚ÄA¡‚Í‰Ÿ‚µ‚Ä‚È‚¢ó‘Ô
-		if ((prevkeyState[keyCode] & 0x80) && !(keyState[keyCode] & 0x80))
+		if (!(keyState[keyCode] & 0x80) && (prevkeyState[keyCode] & 0x80))
 		{
 			return true;
 		}
