@@ -12,5 +12,7 @@ namespace Input
 	void Initialize(HWND hWnd);
 	void Update();
 	bool IsKey(int keyCode);
+	bool IsKeyDown(int KeyCode);
+	bool IsKeyUp(int KeyCode);
 	void Release();
 };

@@ -105,9 +105,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
-			if (Input::IsKey(DIK_ESCAPE))
+			if (Input::IsKeyUp(DIK_ESCAPE))
 			{
-				PostQuitMessage(0);
+				static int cnt = 0;
+				cnt++;
+				if(cnt >= 3)
+				{
+					PostQuitMessage(0);
+				}
+				
 			}
 			Camera::Update();
 
