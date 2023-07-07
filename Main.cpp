@@ -112,7 +112,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::BeginDraw();
 			
 			//ルートジョブから、すべてのオブジェクトのドローを呼ぶ
-			pRootJob->Draw();
+			pRootJob->DrawSub();
 
 			Direct3D::EndDraw();
 

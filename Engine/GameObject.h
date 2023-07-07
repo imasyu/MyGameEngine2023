@@ -31,6 +31,6 @@ public:
 		T* pObject;
 		pObject = new T(parent);
 		pObject->Initialize();
-		childList_.push_back(pObject);
+		parent->childList_.push_back(pObject);
 	}
 };
