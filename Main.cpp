@@ -106,7 +106,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			//“ü—Íî•ñ‚ÌXV
 			Input::Update();
-			pRootJob->Update();
+			pRootJob->UpdateSub();
 
 			//•`‰æ
 			Direct3D::BeginDraw();
@@ -118,7 +118,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 		}
 	}
-	pRootJob->Release();
+	pRootJob->ReleaseSub();
 	Input::Release();
 	Direct3D::Release();
 
