@@ -70,11 +70,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //エラー起きたら強制終了
 	}
 
-	//カメラの初期化
-	Camera::Initialize();
-
 	pRootJob = new RootJob;
 	pRootJob->Initialize();
+
+	//カメラの初期化
+	Camera::Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -111,6 +111,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//描画
 			Direct3D::BeginDraw();
 			
+			//ルートジョブから、すべてのオブジェクトのドローを呼ぶ
+			pRootJob->Draw();
 
 			Direct3D::EndDraw();
 
