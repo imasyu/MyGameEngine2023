@@ -9,12 +9,12 @@ using std::list;
 
 class GameObject
 {
+	bool                      Dead_;
 protected:
 	list<GameObject*>         childList_;
 	Transform	              transform_;
 	GameObject*	              pParent_;
 	string	                  objectName_;
-	bool                      Dead_;
 
 public:
 	GameObject();
@@ -30,11 +30,12 @@ public:
 	void UpdateSub();
 	void ReleaseSub();
 	template<class T>
-	void Instantiate(GameObject* parent)
+	GameObject* Instantiate(GameObject* parent)
 	{
 		T* pObject;
 		pObject = new T(parent);
 		pObject->Initialize();
 		parent->childList_.push_back(pObject);
+		return pObject;
 	}
 };
