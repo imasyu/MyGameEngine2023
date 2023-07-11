@@ -1,11 +1,12 @@
 //インクルード
 #include <Windows.h>
+#include <stdlib.h>
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
 #include "Engine/Input.h"
 #include "Engine/RootJob.h"
 
-
+#pragma comment(lib, "winmm.lib")
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -91,11 +92,37 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
-			if (Input::IsKeyUp(DIK_ESCAPE))
+			timeBeginPeriod(1);
+
+			static DWORD countFps = 0;
+
+
+			static DWORD startTime = timeGetTime();
+			DWORD nowTime = timeGetTime();
+
+			if (nowTime - startTime >= 1000)
+			{
+				char str[16];
+				wsprintf(str, "%u", countFps);
+				SetWindowText(hWnd, str);
+
+				countFps = 0;
+				startTime = nowTime;
+			}
+			countFps++;
+
+			char str[16];
+			wsprintf(str, "%u", countFps);
+
+			SetWindowText(hWnd, str);
+
+			timeEndPeriod(1);
+
+			if (Input::IsKeyUp(DIK_RETURN))
 			{
 				static int cnt = 0;
 				cnt++;
-				if(cnt >= 3)
+				if(cnt >= 1)
 				{
 					PostQuitMessage(0);
 				}

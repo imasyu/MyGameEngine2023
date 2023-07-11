@@ -14,14 +14,14 @@ void Player::Initialize()
 {
     pFbx = new Fbx;
     pFbx->Load("Assets/Oden.fbx");
-    this->transform_.scale_.x = 0.5;
-    this->transform_.scale_.y = 0.5;
-    this->transform_.scale_.z = 0.5;
+    transform_.scale_.x = 0.5;
+    transform_.scale_.y = 0.5;
+    transform_.scale_.z = 0.5;
 }
 
 void Player::Update()
 {
-    this->transform_.rotate_.y += 1;
+    transform_.rotate_.y++;
 }
 
 void Player::Draw()
