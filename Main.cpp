@@ -124,7 +124,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			timeEndPeriod(1);
 
-			if (Input::IsKeyUp(DIK_RSHIFT))
+			if (Input::IsKeyUp(DIK_RETURN))
 			{
 				static int cnt = 0;
 				cnt++;
