@@ -1,8 +1,8 @@
 #pragma once
-
 #include <list>
 #include <string>
 #include "Transform.h"
+#include "Direct3D.h"
 
 using std::string;
 using std::list;
@@ -14,6 +14,7 @@ protected:
 	Transform	              transform_;
 	GameObject*	              pParent_;
 	string	                  objectName_;
+	bool                      Dead_;
 
 public:
 	GameObject();
@@ -24,6 +25,7 @@ public:
 	virtual void Update() =0;
 	virtual void Draw() =0;
 	virtual void Release() =0;
+	void KillMe();
 	void DrawSub();
 	void UpdateSub();
 	void ReleaseSub();
