@@ -95,10 +95,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			timeBeginPeriod(1);
 
 			static DWORD countFps = 0;
-
-
 			static DWORD startTime = timeGetTime();
 			DWORD nowTime = timeGetTime();
+			static DWORD lastUpdateTime = nowTime;
 
 			if (nowTime - startTime >= 1000)
 			{
@@ -109,6 +108,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				countFps = 0;
 				startTime = nowTime;
 			}
+
+			if ((nowTime - lastUpdateTime) * 60 <= 1000)
+			{
+				continue;
+			}
+			lastUpdateTime = nowTime;
+
 			countFps++;
 
 			char str[16];
@@ -118,7 +124,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			timeEndPeriod(1);
 
-			if (Input::IsKeyUp(DIK_RETURN))
+			if (Input::IsKeyUp(DIK_RSHIFT))
 			{
 				static int cnt = 0;
 				cnt++;
