@@ -20,6 +20,8 @@ void Player::Initialize()
     transform_.scale_.y = 0.5;
     transform_.scale_.z = 0.5;
     Instantiate<Childoden>(this);
+    GameObject *pCO2 = Instantiate<Childoden>(this);
+    pCO2->SetPosition(-2, 1, 0);
 }
 
 void Player::Update()

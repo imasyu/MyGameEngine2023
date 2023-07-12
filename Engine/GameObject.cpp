@@ -8,8 +8,10 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	: Dead_(false), pParent_(nullptr)
+	: Dead_(false), pParent_(parent), objectName_(name)
 {
+	if (parent != nullptr)
+		this->transform_.pParent_ = &(parent->transform_);
 }
 
 GameObject::~GameObject()
@@ -42,8 +44,8 @@ void GameObject::UpdateSub()
 		if ((*itr)->Dead_ == true)
 		{
 			(*itr)->ReleaseSub();
-			SAFE_DELETE(*itr);
-			itr = childList_.erase(itr);
+			SAFE_DELETE(*itr);//自分自身を消す
+			itr = childList_.erase(itr);//リストからも削除
 		}
 		else
 		{
@@ -57,8 +59,18 @@ void GameObject::ReleaseSub()
 {
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
 	{
-		(*itr)->ReleaseSub();
-		SAFE_DELETE(*itr);
+		(*itr)->ReleaseSub();//*itrのリリースを呼ぶ
+		SAFE_DELETE(*itr);//*itr自体を消す
 	}
 	Release();
+}
+
+void GameObject::SetPosition(XMFLOAT3 position)
+{
+	transform_.position_ = position;
+}
+
+void GameObject::SetPosition(float x, float y, float z)
+{
+	SetPosition(XMFLOAT3(x, y, z));
 }
