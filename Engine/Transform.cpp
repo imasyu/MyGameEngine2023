@@ -36,7 +36,7 @@ XMMATRIX Transform::GetWorldMatrix()
     {
         //親があったら親のワールドマトリックスを掛ける
         return  matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
-    } else //親がnullptrの
+    } else //親がnullptrの時は、子の変換だけ
         return matScale_ * matRotate_ * matTranslate_;
 }
 

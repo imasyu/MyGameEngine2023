@@ -2,7 +2,7 @@
 
 
 GameObject::GameObject()
-	:pParent_(nullptr)
+	:pParent_(nullptr), Dead_(false)
 {
 
 }

@@ -1,5 +1,6 @@
 #include "Childoden.h"
 #include "Engine/Fbx.h"
+#include "Engine/Input.h"
 
 Childoden::Childoden(GameObject* parent)
     :GameObject(parent, "Childoden"), pFbx(nullptr)
@@ -24,6 +25,12 @@ void Childoden::Initialize()
 void Childoden::Update()
 {
     transform_.rotate_.y ++;
+    //if (transform_.rotate_.y++ > 300)
+    //    KillMe();
+    if (Input::IsKeyUp(DIK_D))
+    {
+        KillMe();
+    }
 }
 
 void Childoden::Draw()

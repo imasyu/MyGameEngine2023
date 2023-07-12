@@ -28,6 +28,11 @@ void Player::Update()
 {
     transform_.rotate_.y++;
 
+    if (transform_.rotate_.y > 600)
+    {
+        KillMe();
+    }
+
     if (Input::IsKey(DIK_LEFT))
     {
         transform_.position_.x -= 0.1f;
@@ -49,6 +54,6 @@ void Player::Draw()
 
 void Player::Release()
 {
-    pFbx->Release();
-    delete pFbx;
+    //pFbx->Release();
+    //delete pFbx;
 }
