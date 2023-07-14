@@ -24,7 +24,7 @@ void Transform::Calclation()
     rotateX = XMMatrixRotationX(XMConvertToRadians(rotate_.x));
     rotateY = XMMatrixRotationY(XMConvertToRadians(rotate_.y));
     rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate_.z));
-    matRotate_ = rotateZ * rotateX * rotateY;
+    matRotate_ = rotateX * rotateY * rotateZ;
 
     
     matScale_ = XMMatrixScaling(scale_.x, scale_.y, scale_.z);

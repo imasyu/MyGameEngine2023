@@ -6,6 +6,7 @@ class Fbx;
 class Childoden : public GameObject
 {
 	Fbx* pFbx;
+	int hModel_; //モデル番号
 public:
 	//コンストラクタ
 	Childoden(GameObject* parent);
