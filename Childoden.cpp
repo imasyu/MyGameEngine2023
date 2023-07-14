@@ -1,7 +1,7 @@
 #include "Childoden.h"
 #include "Engine/Fbx.h"
 #include "Engine/Input.h"
-#include "Model.h"
+#include "Engine/Model.h"
 
 Childoden::Childoden(GameObject* parent)
     :GameObject(parent, "Childoden"), pFbx(nullptr), hModel_(-1)

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
-#include "Model.h"
+#include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/RootJob.h"
 

@@ -1,5 +1,5 @@
 #include "Model.h"
-#include "Engine/Direct3D.h"
+#include "Direct3D.h"
 
 struct ModelData
 {
