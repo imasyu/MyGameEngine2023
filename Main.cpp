@@ -72,7 +72,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //エラー起きたら強制終了
 	}
 
-	pRootJob = new RootJob;
+	pRootJob = new RootJob(nullptr);
 	pRootJob->Initialize();
 
 	//カメラの初期化
