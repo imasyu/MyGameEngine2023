@@ -44,7 +44,7 @@ void Player::Update()
     {
         KillMe();
     }
-    if (Input::IsKeyDown(DIK_SPACE))
+    if (Input::IsKeyDown(DIK_E))
     {
         GameObject* pBullet = Instantiate<Childoden>(pParent_);
         pBullet->SetPosition(transform_.position_);
