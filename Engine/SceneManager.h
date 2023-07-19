@@ -1,23 +1,25 @@
 #pragma once
 #include "GameObject.h"
+
+//ゲームのシーンを列挙
+enum SCENE_ID
+{
+    SCENE_ID_TEST = 0,
+    SCENE_ID_PLAY,
+};
+
 class SceneManager :
     public GameObject
 {
+    SCENE_ID currentScene_ID_;
+    SCENE_ID nextScene_ID_;
 public:
     SceneManager(GameObject* parent);
-
     ~SceneManager();
-    
-    //初期化
     void Initialize() override;
-
-    //更新
     void Update() override;
-
-    //描画
     void Draw() override;
-
-    //解放
     void Release()override;
+    void ChangeScene(SCENE_ID _next);
 };
 
