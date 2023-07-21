@@ -113,3 +113,42 @@ GameObject* GameObject::FindObject(string _objName)
 	GameObject* result = rootJob->FindChildObject(_objName);
 	return(result);
 }
+
+void GameObject::AddCollider(SphireCollider* pCollider)
+{
+	pCollider_ = pCollider;
+}
+
+void GameObject::Collision(GameObject* pTarget)
+{
+	if (pTarget->pCollider_ == nullptr)
+		return; //ターゲットにコライダーがアタッチされていない
+	//XMVECTOR v{transform_.position_.x - pTarget->transform_.position_.x,
+	//		   transform_.position_.y - pTarget->transform_.position_.y,
+	//		   transform_.position_.z - pTarget->transform_.position_.z,
+	//		   0 };
+	//XMVECTOR dist = XMVector3Dot(v, v);
+	float dist = (transform_.position_.x - pTarget->transform_.position_.x) * (transform_.position_.x - pTarget->transform_.position_.x)
+		+ (transform_.position_.y - pTarget->transform_.position_.y) * (transform_.position_.y - pTarget->transform_.position_.y)
+		+ (transform_.position_.z - pTarget->transform_.position_.z) * (transform_.position_.z - pTarget->transform_.position_.z);
+	float rDist = (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius()) * (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius());
+	//自分とターゲットの距離 <= R1+R2なら
+	//もし、自分のコライダーとターゲットがぶつかっていたら
+	//onCollision(pTarget)を呼び出す！
+	if (dist <= rDist)
+	{
+		//onCollision();呼ぼう！
+		double p = 0;
+	}
+}
+
+void GameObject::RoundRobin(GameObject* pTarget)
+{
+	if (pCollider_ == nullptr)
+		return;
+	if (pTarget->pCollider_ != nullptr) //自分とターゲット
+		Collision(pTarget);
+	//自分の子供前部とターゲット
+	for (auto itr : childList_)
+		RoundRobin(itr);
+}
