@@ -2,6 +2,7 @@
 #include "Engine/Fbx.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
+#include "Engine/SphireCollider.h"
 
 Childoden::Childoden(GameObject* parent)
     :GameObject(parent, "Childoden"), pFbx(nullptr), hModel_(-1)
@@ -21,6 +22,8 @@ void Childoden::Initialize()
     transform_.scale_.z = 0.2;
     transform_.position_.x = 2.0f;
     transform_.position_.y = 1.0f;
+    SphireCollider* col = new SphireCollider(1.0);
+    AddCollider(col);
 }
 
 void Childoden::Update()

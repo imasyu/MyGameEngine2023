@@ -8,7 +8,7 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	: Dead_(false), pParent_(parent), objectName_(name)
+	: Dead_(false), pParent_(parent), objectName_(name), pCollider_(nullptr)
 {
 	if (parent != nullptr)
 		this->transform_.pParent_ = &(parent->transform_);
@@ -34,6 +34,7 @@ void GameObject::UpdateSub()
 {
 	Update();
 
+	RoundRobin(GetRootJob());
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
 	{
 		(*itr)->UpdateSub();
@@ -121,7 +122,7 @@ void GameObject::AddCollider(SphireCollider* pCollider)
 
 void GameObject::Collision(GameObject* pTarget)
 {
-	if (pTarget->pCollider_ == nullptr)
+	if (pTarget == this || pTarget->pCollider_ == nullptr)
 		return; //ターゲットにコライダーがアタッチされていない
 	//XMVECTOR v{transform_.position_.x - pTarget->transform_.position_.x,
 	//		   transform_.position_.y - pTarget->transform_.position_.y,
