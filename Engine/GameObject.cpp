@@ -132,6 +132,7 @@ void GameObject::Collision(GameObject* pTarget)
 	float dist = (transform_.position_.x - pTarget->transform_.position_.x) * (transform_.position_.x - pTarget->transform_.position_.x)
 		+ (transform_.position_.y - pTarget->transform_.position_.y) * (transform_.position_.y - pTarget->transform_.position_.y)
 		+ (transform_.position_.z - pTarget->transform_.position_.z) * (transform_.position_.z - pTarget->transform_.position_.z);
+
 	float rDist = (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius()) * (this->pCollider_->GetRadius() + pTarget->pCollider_->GetRadius());
 	//自分とターゲットの距離 <= R1+R2なら
 	//もし、自分のコライダーとターゲットがぶつかっていたら
@@ -139,7 +140,7 @@ void GameObject::Collision(GameObject* pTarget)
 	if (dist <= rDist)
 	{
 		//onCollision();呼ぼう！
-		double p = 0;
+		OnCollision(pTarget);
 	}
 }
 
@@ -152,4 +153,11 @@ void GameObject::RoundRobin(GameObject* pTarget)
 	//自分の子供前部とターゲット
 	for (auto itr : childList_)
 		RoundRobin(itr);
+}
+
+//オブジェクトの名前を取得
+const std::string& GameObject::GetObjectName(void)const
+{
+
+	return objectName_;
 }

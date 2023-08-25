@@ -26,5 +26,9 @@ public:
 
 	//‰ğ•ú
 	void Release() override;
+
+	//‰½‚©‚É“–‚½‚Á‚½
+	//ˆø”pTarget “–‚½‚Á‚½‘Šè
+	void OnCollision(GameObject* pTarget) override;
 };
 
