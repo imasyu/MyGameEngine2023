@@ -17,12 +17,12 @@ void Childoden::Initialize()
 {
     hModel_ = Model::Load("Assets/Oden.fbx");
     assert(hModel_ >= 0);
-    //transform_.scale_.x = 0.2;
-    //transform_.scale_.y = 0.2;
-    //transform_.scale_.z = 0.2;
+    transform_.scale_.x = 0.2;
+    transform_.scale_.y = 0.2;
+    transform_.scale_.z = 0.2;
     transform_.position_.x = 2.0f;
     transform_.position_.y = 1.0f;
-    SphireCollider* col = new SphireCollider(1.2f);
+    SphireCollider* col = new SphireCollider(1.0);
     AddCollider(col);
 }
 
@@ -50,14 +50,4 @@ void Childoden::Release()
 {
     pFbx->Release();
     delete pFbx;
-}
-
-//Õ“Ë”»’è
-void Childoden::OnCollision(GameObject* pTarget)
-{
-    //Enemy‚É‚Ô‚Â‚©‚Á‚½‚Æ‚«
-    if (pTarget->GetObjectName() == "Enemy")
-    {
-        KillMe();
-    }
 }

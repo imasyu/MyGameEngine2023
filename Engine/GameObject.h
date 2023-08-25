@@ -41,11 +41,6 @@ public:
 	void AddCollider(SphireCollider* pCollider);
 	void Collision(GameObject* pTarget);
 	void RoundRobin(GameObject* pTarget);
-	
-	//何かに当たった 
-	//引数：pTarget
-	virtual void OnCollision(GameObject* pTarget) {};
-
 public:
 	//テンプレートの定義
 	template<class T>
@@ -57,9 +52,4 @@ public:
 		parent->childList_.push_back(pObject);
 		return pObject;
 	}
-
-	//追加で書き込むやつ
-	//オブジェクトの名前を取得
-	//戻値:名前
-	const std::string& GetObjectName(void) const;
 };

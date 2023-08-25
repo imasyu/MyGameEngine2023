@@ -61,8 +61,3 @@ void Player::Release()
     //pFbx->Release();
     //delete pFbx;
 }
-
-void Player::OnCollision(GameObject* pTarget)
-{
-
-}
