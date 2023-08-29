@@ -1,16 +1,20 @@
 #include "Stage.h"
 #include "Engine/Model.h"
 
+#include "Engine/Input.h"
+
 Stage::Stage(GameObject* parent)
-	:GameObject(parent, "Stage"), hModel_{-1, -1 }, width_(0), height_(0)
+	:GameObject(parent, "Stage"), hModel_{-1}, width_(0), height_(0)
 {
+    ZeroMemory(table_, sizeof(table_));
 
-        table_ = new int* [width_];
-
-        for (int x = 0; x < width_; x++)
+    for (int x = 0; x < 15; x++)
+    {
+        for (int z = 0; z < 15; z++)
         {
-            table_[x] = new int[height_];
+            table_[x][z];
         }
+    }
 }
 
 void Stage::Initialize()
@@ -29,6 +33,7 @@ void Stage::Initialize()
 
 void Stage::Update()
 {
+    
 }
 
 void Stage::Draw()

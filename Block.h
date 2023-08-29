@@ -1,23 +1,13 @@
 #pragma once
 #include "Engine/GameObject.h"
-
-enum
+class Block : public GameObject
 {
-	TYPE_FLOOR,
-	TYPE_MAX
-};
-
-
-//シーンを管理するクラス
-class Stage : public GameObject
-{
-	int hModel_[TYPE_MAX]; //モデル番号
-	int table_[15][15];
-	int width_, height_;
+	int hModel_; //モデル番号
+	int camType_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	Stage(GameObject* parent);
+	Block(GameObject* parent);
 
 	//初期化
 	void Initialize() override;
@@ -31,3 +21,4 @@ public:
 	//開放
 	void Release() override;
 };
+
