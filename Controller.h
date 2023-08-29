@@ -1,13 +1,13 @@
 #pragma once
 #include "Engine/GameObject.h"
-class Block : public GameObject
+class Controller : public GameObject
 {
 	int hModel_; //モデル番号
 	int camType_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	Block(GameObject* parent);
+	Controller(GameObject* parent);
 
 	//初期化
 	void Initialize() override;

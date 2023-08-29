@@ -58,9 +58,4 @@ void Stage::Draw()
 
 void Stage::Release()
 {
-    for (int x = 0; x < height_; x++)
-    {
-        delete[] table_[x];
-    }
-    delete[] table_;
 }
