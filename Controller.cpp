@@ -92,17 +92,15 @@ void Controller::Update()
     XMStoreFloat3(&transform_.position_, vPos);
 
     //カメラ
-    XMVECTOR vCam = XMVectorSet(0, 0, -10, 0);               //自撮り棒を用意
-    vCam = XMVector3TransformCoord(vCam, mRotate * nRotate);
-    XMFLOAT3 camPos;
-    Camera::SetPosition(vPos + vCam);
-    Camera::SetTarget(transform_.position_);
+    XMVECTOR vCam = XMVectorSet(0, 0, -10, 0);               //自撮り棒用意
+    vCam = XMVector3TransformCoord(vCam, mRotate * nRotate); //自撮り棒回転
+    Camera::SetPosition(vPos + vCam);                        //カメラの位置は自撮り棒の先端（現在地+自撮り棒）
+    Camera::SetTarget(transform_.position_);                 //カメラの見る位置はこのオブジェクトの位置
 }
 
 void Controller::Draw()
 {
-	Model::SetTransform(hModel_, transform_);
-	Model::Draw(hModel_);
+	
 }
 
 void Controller::Release()

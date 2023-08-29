@@ -1,33 +1,44 @@
 #include "Stage.h"
 #include "Engine/Model.h"
-
 #include "Engine/Input.h"
 
 Stage::Stage(GameObject* parent)
-	:GameObject(parent, "Stage"), hModel_{-1}, width_(0), height_(0)
+    :GameObject(parent, "Stage")
 {
-    ZeroMemory(table_, sizeof(table_));
-
-    for (int x = 0; x < 15; x++)
+    for (int i = 0; i < MODEL_NUM; i++)
     {
-        for (int z = 0; z < 15; z++)
-        {
-            table_[x][z];
+        hModel_[i] = -1;
+    }
+    //tableの初期化
+    for (int z = 0; z < ZSIZE; z++) {
+        for (int x = 0; x < XSIZE; x++) {
+            table_[x][z] = 0;
         }
     }
 }
 
 void Stage::Initialize()
 {
-    const char* fileName[] = {
-        "Assets/BoxDefault.fbx"
+    string modelname[] = {
+        "BoxDefault.fbx",
+        "BoxBrick.fbx",
+        "BoxGrass.fbx",
+        "BoxSand.fbx",
+        "BoxWater.fbx"
     };
-
+    string fname_base = "Assets/";
     //モデルデータのロード
-    for (int i = 0; i < TYPE_MAX; i++)
+    for (int i = 0; i < MODEL_NUM; i++)
     {
-        hModel_[i] = Model::Load(fileName[i]);
+        hModel_[i] = Model::Load(fname_base + modelname[i]);
         assert(hModel_[i] >= 0);
+    }
+
+    //tableにブロックのタイプをセット
+    for (int z = 0; z < ZSIZE; z++) {
+        for (int x = 0; x < XSIZE; x++) {
+            table_[x][z] = x % 5;
+        }
     }
 }
 
@@ -38,20 +49,17 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-    Transform blockTrans;
-
     for (int x = 0; x < 15; x++)
     {
         for (int z = 0; z < 15; z++)
         {
-            blockTrans.position_.x = x;
-            blockTrans.position_.z = z;
-
+            //table[x][z]からオブジェクトのタイプを取り出して書く
             int type = table_[x][z];
-
-            Model::SetTransform(hModel_[type], blockTrans);
+            Transform trans;
+            trans.position_.x = x;
+            trans.position_.z = z;
+            Model::SetTransform(hModel_[type], trans);
             Model::Draw(hModel_[type]);
-
         }
     }
 }
