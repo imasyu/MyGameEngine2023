@@ -3,13 +3,6 @@
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
 
-#define    CAM_TYPE_FIXED 0       //固定
-#define    CAM_TYPE_TPS_NO_ROT 1  //三人称（回転無し）
-#define    CAM_TYPE_TPS 2         //三人称
-#define    CAM_TYPE_FPS 3         //一人称
-#define    CAM_TYPE_MAX
-
-
 Controller::Controller(GameObject* parent)
 	:GameObject(parent, "Controller"), hModel_(-1), camType_(0)
 {
@@ -23,7 +16,6 @@ void Controller::Initialize()
 
 	
 }
-
 
 void Controller::Update()
 {

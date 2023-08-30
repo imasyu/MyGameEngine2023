@@ -1,19 +1,25 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-const int MODEL_NUM{ 5 };
-const int XSIZE{ 15 };
-const int ZSIZE{ 15 };
-enum BLOCKTYPE
-{
-	DEFAULT, BRICK, GRASS, SAND, WATER
-};
+namespace {
+	const int MODEL_NUM{ 5 };
+	const int XSIZE{ 15 };
+	const int ZSIZE{ 15 };
+
+	enum BLOCKTYPE
+	{
+		DEFAULT, BRICK, GRASS, SAND, WATER
+	};
+}
 
 //シーンを管理するクラス
 class Stage : public GameObject
 {
+	struct BLOCK {
+		int type;
+		int height;
+	}table_[XSIZE][ZSIZE];
 	int hModel_[MODEL_NUM]; //モデル番号
-	int table_[XSIZE][ZSIZE];
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -30,4 +36,8 @@ public:
 
 	//開放
 	void Release() override;
+
+	void SetBlock(int _x, int _z, BLOCKTYPE _type);
+	void SetBlockHeight(int _x, int _z, int _height);
+
 };
