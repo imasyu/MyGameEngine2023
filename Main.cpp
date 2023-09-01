@@ -6,7 +6,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "Engine/RootJob.h"
-#include "DirectXCollision.h"
+#include <DirectXCollision.h>
 
 #pragma comment(lib, "winmm.lib")
 
