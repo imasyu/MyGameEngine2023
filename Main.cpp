@@ -85,6 +85,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //エラー起きたら強制終了
 	}
 
+	//////////////////////////RayCast  テストコード /////////
+	//Fbx* pFbx = new Fbx;
+	//pFbx->Load("Assets/BoxBrick.fbx");
+	//RayCastData data;
+	//data.start = XMFLOAT4(0, 5, 0, 0);
+	//data.dir = XMFLOAT4(0, -1, 0, 0);
+	////ここで落ちとります。
+	//pFbx->RayCast(data);
+	//a++:
+	/////////////////////////////
 	//カメラの初期化
 	Camera::Initialize();
 
@@ -187,6 +197,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+	case WM_MOUSEMOVE:
+		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);  //プログラム終了
 		return 0;
