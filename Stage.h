@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "windows.h"
 
 namespace {
 	const int MODEL_NUM{ 5 };
@@ -18,8 +19,13 @@ class Stage : public GameObject
 	struct BLOCK {
 		int type;
 		int height;
-	}table_[XSIZE][ZSIZE];
+	}table_[15][15];
+	//table_[XSIZE][ZSIZE];
+
 	int hModel_[MODEL_NUM]; //モデル番号
+
+	int mode_;   //0:上げる　1:下げる　2:種類を変える
+	int select_; //種類
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -39,5 +45,7 @@ public:
 
 	void SetBlock(int _x, int _z, BLOCKTYPE _type);
 	void SetBlockHeight(int _x, int _z, int _height);
+
+	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 
 };

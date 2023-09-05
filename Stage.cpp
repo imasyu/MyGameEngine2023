@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "Engine/Model.h"
 #include "Engine/Input.h"
+#include "resource.h"
 
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -85,4 +86,26 @@ void Stage::SetBlockHeight(int _x, int _z, int _height)
 {
     //エラーチェック　範囲内の値かどうか　したほういい
     table_[_x][_z].height = _height;
+}
+
+//もう一つのプロシージャ
+BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+{
+    switch (msg)
+    {
+    //ダイアログを出す
+    case WM_INITDIALOG:
+        //ラジオボタンの初期値
+        SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
+
+        //コンボボックスの初期値
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("レンガ"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("ガラス"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("砂"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("水"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
+        return TRUE;
+    }
+    return FALSE;
 }
