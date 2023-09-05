@@ -293,25 +293,24 @@ void Fbx::Release()
 
 void Fbx::RayCast(RayCastData& rayData)
 {
-	for (int material = 0; material < materialCount_; material++)
-	{
-		//あるマテリアルmaterialのindex数を3で割るとポリゴン数になる
-		for (int poly = 0; poly < indexCount_[material]/3; poly++)
-		{
-			ppIndex_[material][poly*3]
-			XMVECTOR v0 = ;
-			XMVECTOR v1 =
-			XMVECTOR v2 =
+	//for (int material = 0; material < materialCount_; material++)
+	//{
+	//	//あるマテリアルmaterialのindex数を3で割るとポリゴン数になる
+	//	for (int poly = 0; poly < indexCount_[material]/3; poly++)
+	//	{
+	//		XMVECTOR v0;
+	//		XMVECTOR v1;
+	//		XMVECTOR v2;
 
-			XMVECTOR start = rayData.start
-			XMVECTOR dir = rayData.dir
-			float dist;
-			rayData.hit = TriangleTest::Intesect(start, dir, v0, v1, v2, dist);
+	//		XMVECTOR start = XMLoadFloat3(rayData, start);
+	//		XMVECTOR dir = XMLoadFloat3(rayData, dir);
+	//		float dist;
+	//		rayData.hit = TriangleTest::Intesect(start, dir, v0, v1, v2, dist);
 
-			if (rayData.hit)
-			{
-				return;
-			}
-		}
-	}
+	//		if (rayData.hit)
+	//		{
+	//			return;
+	//		}
+	//	}
+	//}
 }
