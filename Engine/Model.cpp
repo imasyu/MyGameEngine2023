@@ -73,3 +73,9 @@ void Model::Release()
 	modelList.clear();
 }
 
+//指定したモデル番号のFBXにレイキャスト
+void Model::RayCast(int hModel, RayCastData& rayData)
+{
+	modelList[hModel]->pfbx_->RayCast(rayData);
+}
+
