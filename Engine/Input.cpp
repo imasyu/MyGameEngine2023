@@ -9,7 +9,7 @@ namespace Input
 	BYTE keyState[256];                        //現在の各キーの状態
 	BYTE prevkeyState[256];                    //前フレームでの各キーの状態
 	//マウス
-	LPDIRECTINPUTDEVICE8    pMouseDevice; //デバイスオブジェクト
+	LPDIRECTINPUTDEVICE8    pMouseDevice_; //デバイスオブジェクト
 	DIMOUSESTATE mouseState_;       //マウスの状態
 	DIMOUSESTATE prevMouseState_;   //前フレームのマウスの状態
 	XMFLOAT3 mousePosition_;        //マウスカーソルの位置
@@ -22,9 +22,9 @@ namespace Input
 		pKeyDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 
 		//マウス
-		pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice, nullptr);
-		pMouseDevice->SetDataFormat(&c_dfDIMouse);
-		pMouseDevice->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE);
+		pDInput->CreateDevice(GUID_SysMouse, &pMouseDevice_, nullptr);
+		pMouseDevice_->SetDataFormat(&c_dfDIMouse);
+		pMouseDevice_->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE);
 	}
 
 	void Update()
@@ -35,9 +35,9 @@ namespace Input
 		pKeyDevice->GetDeviceState(sizeof(keyState), &keyState);
 
 		//マウス
-		pMouseDevice->Acquire();
+		pMouseDevice_->Acquire();
 		memcpy(&prevMouseState_, &mouseState_, sizeof(mouseState_));
-		pMouseDevice->GetDeviceState(sizeof(mouseState_), &mouseState_);
+		pMouseDevice_->GetDeviceState(sizeof(mouseState_), &mouseState_);
 	}
 
 	bool IsKey(int keyCode)
