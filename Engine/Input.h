@@ -19,7 +19,7 @@ namespace Input
 	void Release();
 
 	//マウス
-	bool IsMouseButton(int buttonCode);//マウスのボタンが押されているか調べる //引数：buttonCode 調べ
+	bool IsMouseButton(int buttonCode);//マウスのボタンが押されているか調べる //引数：buttonCode 調べたいボタンの番号
 	bool IsMouseButtonDown(int buttonCode);//マウスのボタンを今押したか調べる（押しっぱなしは無効）
 	bool IsMouseButtonUp(int buttonCode);   //マウスのボタンを今離したか調べる
 	XMFLOAT3 GetMousePosition();//マウスカーソルの位置を取得

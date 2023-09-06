@@ -3,6 +3,7 @@
 #include "Direct3D.h"
 #include "Camera.h"
 #include "Texture.h"
+#include "DirectXCollision.h"
 
 Fbx::Fbx()
 	:vertexCount_(0), polygonCount_(0), materialCount_(0),
@@ -293,24 +294,27 @@ void Fbx::Release()
 
 void Fbx::RayCast(RayCastData& rayData)
 {
-	//for (int material = 0; material < materialCount_; material++)
-	//{
-	//	//あるマテリアルmaterialのindex数を3で割るとポリゴン数になる
-	//	for (int poly = 0; poly < indexCount_[material]/3; poly++)
-	//	{
-	//		XMVECTOR v0;
-	//		XMVECTOR v1;
-	//		XMVECTOR v2;
+	for (int material = 0; material < materialCount_; material++)
+	{
+		//あるマテリアルmaterialのindex数を3で割るとポリゴン数になる
 
-	//		XMVECTOR start = XMLoadFloat3(rayData, start);
-	//		XMVECTOR dir = XMLoadFloat3(rayData, dir);
-	//		float dist;
-	//		rayData.hit = TriangleTest::Intesect(start, dir, v0, v1, v2, dist);
+		int polygonCount = material / 3;
+		for (int poly = 0; poly < indexCount_[material]/3; poly++)
+		{
+			float dist;
+			XMVECTOR v0 = pVertices_[ppIndex_[material][poly * 3 + 0]].position;
+			XMVECTOR v1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
+			XMVECTOR v2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
+			XMVECTOR start = XMLoadFloat4(&rayData.start);
+			XMVECTOR dir = XMLoadFloat4(&rayData.dir);
+			XMVECTOR dirN = XMVector4Normalize(dir);
+			
+			rayData.hit = TriangleTests::Intersects(start, dir, v0, v1, v2, dist);
 
-	//		if (rayData.hit)
-	//		{
-	//			return;
-	//		}
-	//	}
-	//}
+			if (rayData.hit)
+			{
+				return;
+     		}
+		}
+	}
 }

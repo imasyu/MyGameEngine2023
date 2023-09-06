@@ -60,6 +60,58 @@ namespace Input
 		return false;
 	}
 
+	bool IsMouseButton(int buttonCode)
+	{
+		//押してる
+		if (mouseState_.rgbButtons[buttonCode] & 0x80)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool IsMouseButtonDown(int buttonCode)
+	{
+		//今は押してて、前回は押してない
+		if (IsMouseButton(buttonCode) && !(prevMouseState_.rgbButtons[buttonCode] & 0x80))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool IsMouseButtonUp(int buttonCode)
+	{
+		//今押してなくて、前回は押してる
+		if (!IsMouseButton(buttonCode) && (prevMouseState_.rgbButtons[buttonCode] & 0x80))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	XMFLOAT3 GetMousePosition()
+	{
+		return mousePosition_;
+	}
+
+	XMFLOAT3 GetMouseMove()
+	{
+		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX,
+			(float)mouseState_.lY,
+			(float)mouseState_.lZ);
+		return result;
+	}
+
+	//マウスカーソルの位置をセット
+	void SetMousePosition(int x, int y)
+	{
+		mousePosition_.x = x;
+		mousePosition_.y = y;
+		std::string resStr = std::to_string(x) + ", " + std::to_string(y);
+		OutputDebugString(resStr.c_str());;
+	}
+
 	//離した瞬間
 	bool IsKeyUp(int keyCode)
 	{
@@ -75,53 +127,6 @@ namespace Input
 	{
 		SAFE_RELEASE(pDInput);
 	}
-	bool IsMouseButton(int buttonCode)
-	{
-		//押してる
-		if(mouseState_.rgbButtons[buttonCode] & 0x80)
-		{ 
-			return true;
-		}
-		return false;
-	}
-	bool IsMouseButtonDown(int buttonCode)
-	{
-		//今は押してて、前回は押してない
-		if (IsMouseButton(buttonCode) && !(prevMouseState_.rgbButtons[buttonCode] & 0x80))
-		{
-			return true;
-		}
-		return false;
-	}
-	bool IsMouseButtonUp(int buttonCode)
-	{
-		//今押してなくて、前回は押してる
-		if (!IsMouseButton(buttonCode) && (prevMouseState_.rgbButtons[buttonCode] & 0x80))
-		{
-			return true;
-		}
-		return false;
-	}
-	XMFLOAT3 GetMousePosition()
-	{
-		return mousePosition_;
-	}
-
-	XMFLOAT3 GetMouseMove()
-	{
-		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX,
-			                       (float)mouseState_.lY,
-			                       (float)mouseState_.lZ);
-		return result;
-	}
-
-	//マウスカーソルの位置をセット
-	void SetMousePosition(int x, int y)
-	{
-		mousePosition_.x = x;
-		mousePosition_.y = y;
-		std::string resStr = std::to_string(x) + ", " + std::to_string(y);
-		OutputDebugString(resStr.c_str());;
-	}
+	
 }
 
