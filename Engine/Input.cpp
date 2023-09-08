@@ -98,8 +98,8 @@ namespace Input
 	XMFLOAT3 GetMouseMove()
 	{
 		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX,
-			(float)mouseState_.lY,
-			(float)mouseState_.lZ);
+			                      (float)mouseState_.lY,
+			                      (float)mouseState_.lZ);    
 		return result;
 	}
 

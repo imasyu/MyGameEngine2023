@@ -2,7 +2,7 @@
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "resource.h"
-#include "Engine/Camera.cpp"
+#include "Engine/Camera.h"
 
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -92,8 +92,11 @@ void Stage::Update()
                 //⑤　②から④に向かってレイをうつ（とりあえずモデル番号はhModel_[0]）
                 RayCastData data;
                 XMStoreFloat4(&data.start, vMouseFront);
-                XMStoreFloat4(&data.dir, vMouseFront - vMouseBack);
+                XMStoreFloat4(&data.dir, vMouseBack - vMouseFront);
                 Transform trans;
+                trans.position_.x = x;
+                trans.position_.y = y;
+                trans.position_.z = z;
                 Model::SetTransform(hModel_[0], trans);
 
 

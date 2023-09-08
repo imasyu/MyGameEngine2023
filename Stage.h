@@ -19,8 +19,8 @@ class Stage : public GameObject
 	struct BLOCK {
 		int type;
 		int height;
-	}table_[15][15];
-	//table_[XSIZE][ZSIZE];
+	}table_[XSIZE][ZSIZE];
+	//table_[15][15];
 
 	int hModel_[MODEL_NUM]; //ƒ‚ƒfƒ‹”Ô†
 

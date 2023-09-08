@@ -90,7 +90,7 @@ void Model::RayCast(int hModel, RayCastData& rayData)
 	//④（始点から方向ベクトルをちょい伸ばした先）通過点（②）に①をかける
 	vpass = XMVector3TransformCoord(vpass, wInv);
 	//⑤rayData.dirを③から④に向かうベクトルにする（引き算）
-	vpass = 
+	vpass = vpass - vstart;
 	XMStoreFloat4(&rayData.dir, vpass);
 
 	//指定したモデル番号のFBXにレイキャスト
