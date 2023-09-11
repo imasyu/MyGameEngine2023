@@ -88,7 +88,7 @@ void Stage::Update()
     {
         for (int z = 0; z < 15; z++)
         {
-            for (int y = 0; y < table_[x][z].height; y++)
+            for (int y = 0; y < table_[x][z].height + 1; y++)
             {
                 //‡D@‡A‚©‚ç‡C‚ÉŒü‚©‚Á‚ÄƒŒƒC‚ð‚¤‚Âi‚Æ‚è‚ ‚¦‚¸ƒ‚ƒfƒ‹”Ô†‚ÍhModel_[0]j
                 RayCastData data;
