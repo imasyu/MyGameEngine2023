@@ -52,8 +52,8 @@ void Stage::Update()
     if (!Input::IsMouseButtonDown(0)) {
         return;
     }
-    float w = (float)(Direct3D::scrWidth / 2);
-    float h = (float)(Direct3D::scrHeight / 2);
+    float w = (float)(Direct3D::scrWidth / 2.0f);
+    float h = (float)(Direct3D::scrHeight / 2.0f);
     //0ffsetx.yは0
     //minZ = 0 maxZ = 1
 
@@ -62,8 +62,9 @@ void Stage::Update()
         w,  0, 0, 0,
         0, -h, 0, 0,
         0,  0, 1, 0,
-        w,  0, 0, 1
+        w,  h, 0, 1
     };
+
     //ビューポート
     XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
     //プロジェクション変換
@@ -87,7 +88,7 @@ void Stage::Update()
     {
         for (int z = 0; z < 15; z++)
         {
-            for (int y = 0; y < table_[x][z].height + 1; y++)
+            for (int y = 0; y < table_[x][z].height; y++)
             {
                 //⑤　②から④に向かってレイをうつ（とりあえずモデル番号はhModel_[0]）
                 RayCastData data;
@@ -105,6 +106,7 @@ void Stage::Update()
                 //⑥　レイが当たったらブレークポイントで止める
                 if (data.hit)
                 {
+                    table_[x][z].height++;
                     break;
                 }
             }
