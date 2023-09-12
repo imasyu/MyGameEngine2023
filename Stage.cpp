@@ -100,7 +100,7 @@ void Stage::Update()
                 trans.position_.x = x;
                 trans.position_.y = y;
                 trans.position_.z = z;
-                Model::SetTransform(hModel_[1], trans);
+                Model::SetTransform(hModel_[0], trans);
 
 
                 Model::RayCast(hModel_[0], data);
