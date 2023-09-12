@@ -41,8 +41,10 @@ void Stage::Initialize()
     for (int z = 0; z < ZSIZE; z++) {
         for (int x = 0; x < XSIZE; x++) {
             //table_[x][z] = x % 5;
-            SetBlock(x, z, (BLOCKTYPE)(z%5));
-            SetBlockHeight(x, z, x%4);
+            //SetBlock(x, z, (BLOCKTYPE)(z%5));
+            //SetBlockHeight(x, z, x%4);
+            SetBlock(x, z, (BLOCKTYPE)(1));
+            SetBlockHeight(x, z, 0);
         }
     }
 }
@@ -98,7 +100,7 @@ void Stage::Update()
                 trans.position_.x = x;
                 trans.position_.y = y;
                 trans.position_.z = z;
-                Model::SetTransform(hModel_[0], trans);
+                Model::SetTransform(hModel_[1], trans);
 
 
                 Model::RayCast(hModel_[0], data);
