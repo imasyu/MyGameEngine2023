@@ -43,7 +43,7 @@ void Stage::Initialize()
             //table_[x][z] = x % 5;
             //SetBlock(x, z, (BLOCKTYPE)(z%5));
             //SetBlockHeight(x, z, x%4);
-            SetBlock(x, z, (BLOCKTYPE)(1));
+            SetBlock(x, z, (BLOCKTYPE)(0));
             SetBlockHeight(x, z, 0);
         }
     }
@@ -102,7 +102,6 @@ void Stage::Update()
                 trans.position_.z = z;
                 Model::SetTransform(hModel_[0], trans);
 
-
                 Model::RayCast(hModel_[0], data);
 
                 //⑥　レイが当たったらブレークポイントで止める
@@ -111,11 +110,16 @@ void Stage::Update()
                     table_[x][z].height++;
                     break;
                 }
+                else if (controlId == IDC_RADIO_DOWN) {
+                    if (data.hit) {
+                        table_[x][z].height--;
+                        break;
+                    }
+                }
+                
             }
         }
     }
-    
-    
 }
 
 void Stage::Draw()
@@ -164,6 +168,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_INITDIALOG:
         //ラジオボタンの初期値
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
+        SendMessage(GetDlgItem(hDlg, IDC_RADIO_DOWN), BM_SETCHECK, BST_CHECKED, 0);
 
         //コンボボックスの初期値
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
@@ -172,6 +177,8 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("砂"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("水"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
+    case WM_COMMAND:
+        controlId = LOWORD(wp);
         return TRUE;
     }
     return FALSE;
