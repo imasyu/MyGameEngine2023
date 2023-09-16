@@ -110,8 +110,12 @@ void Stage::Update()
                     table_[x][z].height++;
                     break;
                 }
-                
-                
+                else if (controlId) {
+                    if (data.hit) {
+                        table_[x][z].height--;
+                        break;
+                    }
+                }
             }
         }
     }
@@ -163,6 +167,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_INITDIALOG:
         //ラジオボタンの初期値
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
+        SendMessage(GetDlgItem(hDlg, IDC_RADIO_DOWN), BM_SETCHECK, BST_CHECKED, 0);
 
         //コンボボックスの初期値
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
