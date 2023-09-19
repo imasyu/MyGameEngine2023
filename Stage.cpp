@@ -105,18 +105,25 @@ void Stage::Update()
                 Model::RayCast(hModel_[0], data);
 
                 //⑥　レイが当たったらブレークポイントで止める
-                if (controlId == IDC_RADIO_UP) {
-                    if (data.hit)
-                    {
+                if (data.hit) {
+                    if (controlId == IDC_RADIO_UP) {
                         table_[x][z].height++;
                         break;
                     }
-                }
-                else if (controlId == IDC_RADIO_DOWN) {
+                    else if (controlId == IDC_RADIO_DOWN) {
                         if (y > 0) {
                             table_[x][z].height--;
                             break;
                         }
+                    }
+                }
+
+                for (int i = 0; i < MODEL_NUM; i++) {
+                    if (data.hit) {
+                        if (controlId == IDC_COMBO1) {
+                            SetBlock(x, z, (BLOCKTYPE)(i));
+                        }
+                    }
                 }
             }
         }
@@ -170,6 +177,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
         //ラジオボタンの初期値
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_DOWN), BM_SETCHECK, BST_CHECKED, 0);
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), BM_SETCHECK, BST_CHECKED, 0);
 
         //コンボボックスの初期値
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
