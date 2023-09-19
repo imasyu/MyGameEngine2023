@@ -105,16 +105,18 @@ void Stage::Update()
                 Model::RayCast(hModel_[0], data);
 
                 //⑥　レイが当たったらブレークポイントで止める
-                if (data.hit)
-                {
-                    table_[x][z].height++;
-                    break;
-                }
-                else if (controlId) {
-                    if (data.hit) {
-                        table_[x][z].height--;
+                if (controlId == IDC_RADIO_UP) {
+                    if (data.hit)
+                    {
+                        table_[x][z].height++;
                         break;
                     }
+                }
+                else if (controlId == IDC_RADIO_DOWN) {
+                        if (y > 0) {
+                            table_[x][z].height--;
+                            break;
+                        }
                 }
             }
         }
