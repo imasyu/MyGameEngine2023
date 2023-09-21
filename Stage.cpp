@@ -116,14 +116,10 @@ void Stage::Update()
                             break;
                         }
                     }
-                }
-
-                for (int i = 0; i < MODEL_NUM; i++) {
-                    if (data.hit) {
-                        if (controlId == IDC_COMBO1) {
-                            SetBlock(x, z, (BLOCKTYPE)(i));
-                        }
+                    else if(controlId == IDC_COMBO1) {
+                        SetBlock(x, z, (BLOCKTYPE)(comboId));
                     }
+                        
                 }
             }
         }
@@ -176,18 +172,18 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_INITDIALOG:
         //ラジオボタンの初期値
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
-        SendMessage(GetDlgItem(hDlg, IDC_RADIO_DOWN), BM_SETCHECK, BST_CHECKED, 0);
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), BM_SETCHECK, BST_CHECKED, 0);
+
 
         //コンボボックスの初期値
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("レンガ"));
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("ガラス"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("草"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("砂"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("水"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETCURSEL, 0, 0);
     case WM_COMMAND:
         controlId = LOWORD(wp);
+        comboId = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
         return TRUE;
     }
     return FALSE;
