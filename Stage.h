@@ -26,8 +26,8 @@ class Stage : public GameObject
 
 	int mode_;   //0:上げる　1:下げる　2:種類を変える
 	int select_; //種類
-	int controlId;
-	int comboId;
+	int controlId; //コントロールのIDを取得
+	int comboId; //コンボのIDを取得
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
