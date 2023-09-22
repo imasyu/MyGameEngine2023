@@ -125,7 +125,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 	
 	for (int i = 0; i < materialCount_; i++)
 	{
-		ppIndex_[i] = new int[polygonCount_ * 3];
+		ppIndex_[i] = new int[polygonCount_];
 		int count = 0;
 
 		//全ポリゴン
@@ -298,13 +298,13 @@ void Fbx::RayCast(RayCastData& rayData)
 	{
 		//あるマテリアルmaterialのindex数を3で割るとポリゴン数になる
 
-		int polygonCount = material / 3;
+		//int polygonCount = material / 3;
 		for (int poly = 0; poly < indexCount_[material]/3; poly++)
 		{
 			float dist;
-			XMVECTOR v0 = pVertices_[ppIndex_[material][poly * 3 + 0]].position;
-			XMVECTOR v1 = pVertices_[ppIndex_[material][poly * 3 + 1]].position;
-			XMVECTOR v2 = pVertices_[ppIndex_[material][poly * 3 + 2]].position;
+			XMVECTOR v0 = pVertices_[ppIndex_[material][poly + 0]].position;
+			XMVECTOR v1 = pVertices_[ppIndex_[material][poly + 1]].position;
+			XMVECTOR v2 = pVertices_[ppIndex_[material][poly + 2]].position;
 			XMVECTOR start = XMLoadFloat4(&rayData.start);
 			XMVECTOR dir = XMLoadFloat4(&rayData.dir);
 			XMVECTOR dirN = XMVector4Normalize(dir);
