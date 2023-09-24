@@ -74,6 +74,10 @@ void Stage::Update()
     XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
     //ビュー変換
     XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
+    //レイを-5°移動させて、調節した
+    float angleIncrement = XMConvertToRadians(-5.0f); // 角度をラジアンに変換
+    XMMATRIX rotationMatrix = XMMatrixRotationX(angleIncrement); // X軸周りに回転
+    invView = XMMatrixMultiply(rotationMatrix, invView); // ビュー行列に回転行列を適用
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
     mousePosFront.z = 0.0f;
     XMFLOAT3 mousePosBack = Input::GetMousePosition();
@@ -86,6 +90,8 @@ void Stage::Update()
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //④　③にinvVP、invPrj、invViewをかける
     vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
+
+    rayHit_ = false;
 
     for (int x = 0; x < 15; x++)
     {
@@ -106,7 +112,7 @@ void Stage::Update()
                 Model::RayCast(hModel_[0], data);
 
                 //⑥　レイが当たったらブレークポイントで止める
-                if (data.hit) {
+                if (data.hit && !rayHit_) {
                     if (controlId == IDC_RADIO_UP) {
                         table_[x][z].height++;
                         break;

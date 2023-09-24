@@ -28,6 +28,7 @@ class Stage : public GameObject
 	int select_; //種類
 	int controlId; //コントロールのIDを取得
 	int comboId; //コンボのIDを取得
+	bool rayHit_;   //レイがヒットしたかどうかを示すフラグ
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
