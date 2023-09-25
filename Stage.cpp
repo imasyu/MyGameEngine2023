@@ -113,6 +113,7 @@ void Stage::Update()
 
                 //⑥　レイが当たったらブレークポイントで止める
                 if (data.hit && !rayHit_) {
+                    rayHit_ = true;
                     if (controlId == IDC_RADIO_UP) {
                         table_[x][z].height++;
                         break;
@@ -180,8 +181,6 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_INITDIALOG:
         //ラジオボタンの初期値
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
-
-
         //コンボボックスの初期値
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("デフォルト"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, LPARAM("レンガ"));
