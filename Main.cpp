@@ -36,6 +36,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	bool result = TriangleTests::Intersects(beginP, dirVec, P1, P2, P3, dist);
 
+	HANDLE hFile;        //ファイルのハンドル
+	hFile = CreateFile(
+		"file",                 //ファイル名
+		GENERIC_WRITE,           //アクセスモード（書き込み用）
+		0,                      //共有（なし）
+		NULL,                   //セキュリティ属性（継承しない）
+		CREATE_ALWAYS,           //作成方法
+		FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+		NULL);                  //拡張属性（なし）
+
+	DWORD dwBytes = 0;  //書き込み位置
+	WriteFile(
+		hFile,                   //ファイルハンドル
+		,                  //保存するデータ（文字列）
+		(DWORD)strlen(),   //書き込む文字数
+		&dwBytes,                //書き込んだサイズを入れる変数
+		NULL);                   //オーバーラップド構造体（今回は使わない）
+
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
