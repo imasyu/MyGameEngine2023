@@ -50,6 +50,8 @@ public:
 	void SetBlock(int _x, int _z, BLOCKTYPE _type);
 	void SetBlockHeight(int _x, int _z, int _height);
 
+	void Save();
+
 	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 
 };
