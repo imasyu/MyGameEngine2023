@@ -194,6 +194,7 @@ void Stage::Save()
     //キャンセルしたら中断
     if (selFile == FALSE) return;
 
+    //セーブのルーチン
     HANDLE hFile;        //ファイルのハンドル
     hFile = CreateFile(
         "filename",                 //ファイル名
@@ -203,6 +204,18 @@ void Stage::Save()
         CREATE_ALWAYS,           //作成方法
         FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
         NULL);                  //拡張属性（なし）
+
+    std::string data = "";
+
+    DWORD dwBytes = 0;  //書き込み位置
+    WriteFile(
+        hFile,                   //ファイルハンドル
+        "ABCDEF",                  //保存するデータ（文字列）
+        (DWORD)strlen("ABCDEF"),   //書き込む文字数
+        &dwBytes,                //書き込んだサイズを入れる変数
+        NULL);                   //オーバーラップド構造体（今回は使わない）
+
+
 }
 
 //もう一つのプロシージャ
@@ -225,7 +238,6 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_COMMAND:
         controlId = LOWORD(wp);
         comboId = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-        //menuId = SendMessage(GetDigItem(hDlg, ID_MENU_SAVE), CB_GETCURSEL, 0, 0);
         return TRUE;
     }
     return FALSE;
