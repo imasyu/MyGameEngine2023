@@ -28,6 +28,7 @@ class Stage : public GameObject
 	int select_; //種類
 	int controlId; //コントロールのIDを取得
 	int comboId; //コンボのIDを取得
+	int menuId;
 	bool rayHit_;   //レイがヒットしたかどうかを示すフラグ
 public:
 	//コンストラクタ
@@ -48,6 +49,8 @@ public:
 
 	void SetBlock(int _x, int _z, BLOCKTYPE _type);
 	void SetBlockHeight(int _x, int _z, int _height);
+
+	void Save();
 
 	BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 
