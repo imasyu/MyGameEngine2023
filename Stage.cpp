@@ -185,7 +185,7 @@ void Stage::Save()
     ofn.lpstrFile = fileName;               	//ファイル名
     ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
     ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
-    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+    ofn.lpstrDefExt = "txt";                  	//デフォルト拡張子
 
     //「ファイルを保存」ダイアログ
     BOOL selFile;
@@ -205,15 +205,45 @@ void Stage::Save()
         FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
         NULL);                  //拡張属性（なし）
 
-    std::string data = "";
+    std::string data = "ABCDEF";
 
     DWORD dwBytes = 0;  //書き込み位置
     WriteFile(
         hFile,                   //ファイルハンドル
-        "ABCDEF",                  //保存するデータ（文字列）
-        (DWORD)strlen("ABCDEF"),   //書き込む文字数
+        data.c_str(),                  //保存するデータ（文字列）
+        (DWORD)strlen(data.c_str()),   //書き込む文字数
         &dwBytes,                //書き込んだサイズを入れる変数
         NULL);                   //オーバーラップド構造体（今回は使わない）
+
+
+}
+
+void Stage::Load()
+{
+    HANDLE hFile;        //ファイルのハンドル
+    hFile = CreateFile(
+        "filename.txt",                 //ファイル名
+        GENERIC_READ,           //アクセスモード（読み込み用）
+        0,                      //共有（なし）
+        NULL,                   //セキュリティ属性（継承しない）
+        OPEN_EXISTING,           //作成方法
+        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+        NULL);                  //拡張属性（なし）
+
+    //ファイルのサイズを取得
+    DWORD fileSize = GetFileSize(hFile, NULL);
+
+    //ファイルのサイズ分メモリを確保
+    char* data;
+    data = new char[fileSize];
+
+    DWORD dwBytes = 0; //読み込み位置
+    ReadFile(
+        hFile,     //ファイルハンドル
+        data,      //データを入れる変数
+        fileSize,  //読み込むサイズ
+        &dwBytes,  //読み込んだサイズ
+        NULL);     //オーバーラップド構造体（今回は使わない）
 
 
 }
