@@ -185,7 +185,7 @@ void Stage::Save()
     ofn.lpstrFile = fileName;               	//ファイル名
     ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
     ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
-    ofn.lpstrDefExt = "txt";                  	//デフォルト拡張子
+    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
 
     //「ファイルを保存」ダイアログ
     BOOL selFile;
@@ -194,28 +194,30 @@ void Stage::Save()
     //キャンセルしたら中断
     if (selFile == FALSE) return;
 
-    //セーブのルーチン
-    HANDLE hFile;        //ファイルのハンドル
+    HANDLE hFile;
     hFile = CreateFile(
-        "filename",                 //ファイル名
-        GENERIC_WRITE,           //アクセスモード（書き込み用）
-        0,                      //共有（なし）
-        NULL,                   //セキュリティ属性（継承しない）
-        CREATE_ALWAYS,           //作成方法
-        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-        NULL);                  //拡張属性（なし）
+        fileName,    //ファイル名
+        GENERIC_WRITE,  //アクセスモード
+        0,
+        NULL,
+        CREATE_ALWAYS,     //作成方法
+        FILE_ATTRIBUTE_NORMAL,
+        NULL
+    );
 
     std::string data = "";
 
-    DWORD dwBytes = 0;  //書き込み位置
+    //data.length()
+    DWORD bytes = 0;
     WriteFile(
-        hFile,                   //ファイルハンドル
-        data.c_str(),                  //保存するデータ（文字列）
-        (DWORD)strlen(data.c_str()),   //書き込む文字数
-        &dwBytes,                //書き込んだサイズを入れる変数
-        NULL);                   //オーバーラップド構造体（今回は使わない）
+        hFile,              //ファイルハンドル
+        "ABCDEF\0",          //保存したい文字列
+        12,                  //保存する文字数
+        &bytes,             //保存したサイズ
+        NULL
+    );
 
-
+    CloseHandle(hFile);
 }
 
 void Stage::Load()
@@ -231,9 +233,9 @@ void Stage::Load()
     ofn.lpstrFile = fileName;               	//ファイル名
     ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
     ofn.Flags = OFN_FILEMUSTEXIST;   		//フラグ（同名ファイルが存在したら上書き確認）
-    ofn.lpstrDefExt = "txt";                  	//デフォルト拡張子
+    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
 
-    //「ファイルを保存」ダイアログ
+    //「ファイルを開く」ダイアログ
     BOOL selFile;
     selFile = GetOpenFileName(&ofn);
 
@@ -257,12 +259,12 @@ void Stage::Load()
     char* data;
     data = new char[fileSize];
 
-    DWORD dwBytes = 0; //読み込み位置
+    DWORD bytes = 0; //読み込み位置
     ReadFile(
         hFile,     //ファイルハンドル
         data,      //データを入れる変数
         fileSize,  //読み込むサイズ
-        &dwBytes,  //読み込んだサイズ
+        &bytes,  //読み込んだサイズ
         NULL);     //オーバーラップド構造体（今回は使わない）
 
 
