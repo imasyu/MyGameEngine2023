@@ -198,7 +198,7 @@ void Stage::Save()
     hFile = CreateFile(
         fileName,    //ファイル名
         GENERIC_WRITE,  //アクセスモード
-        0,
+        FILE_SHARE_WRITE,
         NULL,
         CREATE_ALWAYS,     //作成方法
         FILE_ATTRIBUTE_NORMAL,
@@ -246,7 +246,7 @@ void Stage::Load()
     hFile = CreateFile(
         "filename",                 //ファイル名
         GENERIC_READ,           //アクセスモード（読み込み用）
-        0,                      //共有（なし）
+        FILE_SHARE_READ,                      //共有（なし）
         NULL,                   //セキュリティ属性（継承しない）
         OPEN_EXISTING,           //作成方法
         FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
