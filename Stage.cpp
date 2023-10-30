@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 #include "resource.h"
 #include "Engine/Camera.h"
+#include <fstream>
 
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -172,6 +173,14 @@ void Stage::SetBlockHeight(int _x, int _z, int _height)
     table_[_x][_z].height = _height;
 }
 
+string Stage::BlockData(const BLOCK& block)
+{
+    string data;
+    data.resize(sizeof(BLOCK));
+    memcpy(&data[0], &block, sizeof(BLOCK));
+    return data;
+}
+
 void Stage::Save()
 {
     char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
@@ -198,7 +207,7 @@ void Stage::Save()
     hFile = CreateFile(
         fileName,    //ファイル名
         GENERIC_WRITE,  //アクセスモード
-        FILE_SHARE_WRITE,
+        0,
         NULL,
         CREATE_ALWAYS,     //作成方法
         FILE_ATTRIBUTE_NORMAL,
@@ -206,14 +215,20 @@ void Stage::Save()
     );
 
     std::string data = "";
+    for (int x = 0; x < XSIZE; x++) {
+        for (int z = 0; z < ZSIZE; z++) {
+            data += BlockData(table_[x][z]);
+        }
+    }
 
     //data.length()
+    std::ofstream outputFile("", std::ios::binary);
     DWORD bytes = 0;
     WriteFile(
         hFile,              //ファイルハンドル
-        "ABCDEF\0",          //保存したい文字列
-        12,                  //保存する文字数
-        &bytes,             //保存したサイズ
+        data.c_str(),          //保存したい文字列            
+        data.size(),             //保存したサイズ
+        &bytes,
         NULL
     );
 

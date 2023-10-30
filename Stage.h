@@ -50,6 +50,8 @@ public:
 	void SetBlock(int _x, int _z, BLOCKTYPE _type);
 	void SetBlockHeight(int _x, int _z, int _height);
 
+	string BlockData(const BLOCK& block);
+
 	void Save();
 
 	void Load();
