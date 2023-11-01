@@ -261,7 +261,7 @@ void Stage::Load()
     hFile = CreateFile(
         "filename",                 //ファイル名
         GENERIC_READ,           //アクセスモード（読み込み用）
-        FILE_SHARE_READ,                      //共有（なし）
+        0,                      //共有（なし）
         NULL,                   //セキュリティ属性（継承しない）
         OPEN_EXISTING,           //作成方法
         FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
@@ -274,15 +274,27 @@ void Stage::Load()
     char* data;
     data = new char[fileSize];
 
-    DWORD bytes = 0; //読み込み位置
+    DWORD byteRead = 0; //読み込み位置
     ReadFile(
         hFile,     //ファイルハンドル
         data,      //データを入れる変数
         fileSize,  //読み込むサイズ
-        &bytes,  //読み込んだサイズ
+        &byteRead,  //読み込んだサイズ
         NULL);     //オーバーラップド構造体（今回は使わない）
 
+    int index = 0;
+    for (int x = 0; x < XSIZE; x++) {
+        for (int z = 0; z < ZSIZE; z++) {
+            BLOCK block;
+            memcpy(&block, &data[index], sizeof(BLOCK));
 
+            table_[x][z] = block;
+
+            index += sizeof(BLOCK);
+        }
+    }
+
+    delete[] data;
 }
 
 //もう一つのプロシージャ
