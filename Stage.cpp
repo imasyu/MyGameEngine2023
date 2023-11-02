@@ -4,6 +4,7 @@
 #include "resource.h"
 #include "Engine/Camera.h"
 #include <fstream>
+#include <iostream>
 
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage")
@@ -203,36 +204,24 @@ void Stage::Save()
     //キャンセルしたら中断
     if (selFile == FALSE) return;
 
-    HANDLE hFile;
-    hFile = CreateFile(
-        fileName,    //ファイル名
-        GENERIC_WRITE,  //アクセスモード
-        0,
-        NULL,
-        CREATE_ALWAYS,     //作成方法
-        FILE_ATTRIBUTE_NORMAL,
-        NULL
-    );
+    //data.length()
+    std::fstream outputFile(fileName, std::ios::binary | std::ios::out);
 
-    std::string data = "";
     for (int x = 0; x < XSIZE; x++) {
         for (int z = 0; z < ZSIZE; z++) {
-            data += BlockData(table_[x][z]);
+            outputFile.write((char*)&table_[x][z], sizeof(BLOCK));
         }
     }
+    //DWORD bytes = 0;
+    //WriteFile(
+    //    hFile,              //ファイルハンドル
+    //    data.c_str(),          //保存したい文字列            
+    //    data.size(),             //保存したサイズ
+    //    &bytes,
+    //    NULL
+    //);
 
-    //data.length()
-    std::ofstream outputFile("", std::ios::binary);
-    DWORD bytes = 0;
-    WriteFile(
-        hFile,              //ファイルハンドル
-        data.c_str(),          //保存したい文字列            
-        data.size(),             //保存したサイズ
-        &bytes,
-        NULL
-    );
-
-    CloseHandle(hFile);
+    outputFile.close();
 }
 
 void Stage::Load()
@@ -257,44 +246,15 @@ void Stage::Load()
     //キャンセルしたら中断
     if (selFile == FALSE) return;
 
-    HANDLE hFile;        //ファイルのハンドル
-    hFile = CreateFile(
-        "filename",                 //ファイル名
-        GENERIC_READ,           //アクセスモード（読み込み用）
-        0,                      //共有（なし）
-        NULL,                   //セキュリティ属性（継承しない）
-        OPEN_EXISTING,           //作成方法
-        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-        NULL);                  //拡張属性（なし）
+    std::fstream inputFile(fileName, std::ios::binary | std::ios::in);
 
-    //ファイルのサイズを取得
-    DWORD fileSize = GetFileSize(hFile, NULL);
-
-    //ファイルのサイズ分メモリを確保
-    char* data;
-    data = new char[fileSize];
-
-    DWORD byteRead = 0; //読み込み位置
-    ReadFile(
-        hFile,     //ファイルハンドル
-        data,      //データを入れる変数
-        fileSize,  //読み込むサイズ
-        &byteRead,  //読み込んだサイズ
-        NULL);     //オーバーラップド構造体（今回は使わない）
-
-    int index = 0;
     for (int x = 0; x < XSIZE; x++) {
         for (int z = 0; z < ZSIZE; z++) {
-            BLOCK block;
-            memcpy(&block, &data[index], sizeof(BLOCK));
-
-            table_[x][z] = block;
-
-            index += sizeof(BLOCK);
+            inputFile.read((char*)&table_[x][z], sizeof(BLOCK));
         }
     }
 
-    delete[] data;
+    inputFile.close();
 }
 
 //もう一つのプロシージャ
