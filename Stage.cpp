@@ -57,6 +57,29 @@ void Stage::Update()
     if (!Input::IsMouseButtonDown(0)) {
         return;
     }
+    else {
+        // マウスの座標を取得
+        XMFLOAT3 mousePos = Input::GetMousePosition();
+
+        // マウスの座標を配列のインデックスに変換
+        int clickedX = static_cast<int>(mousePos.x);
+        int clickedZ = static_cast<int>(mousePos.z);
+
+        // 配列の範囲内か確認
+        if (clickedX >= 0 && clickedX < XSIZE && clickedZ >= 0 && clickedZ < ZSIZE) {
+            // 指定した列の各行の高さを上げる
+            int targetColumn = clickedX; // 上げたい列のインデックスを指定する（例: 0から14の間）
+            for (int z = 0; z < ZSIZE; z++) {
+                table_[targetColumn][z].height += 1;
+
+                // 高さが15を超えないようにチェック（必要に応じて）
+                if (table_[targetColumn][z].height > 15) {
+                    table_[targetColumn][z].height = 15;
+                }
+            }
+        }
+    }
+
     float w = (float)(Direct3D::scrWidth / 2.0f);
     float h = (float)(Direct3D::scrHeight / 2.0f);
     //0ffsetx.yは0
@@ -129,6 +152,31 @@ void Stage::Update()
                     else if(controlId == IDC_COMBO1) {
                         SetBlock(x, z, (BLOCKTYPE)(comboId));
                         break;
+                    }
+                    else if (controlId == IDC_RADIO_MOVE_UP) {
+                        // IDC_RADIO1が選択されたとき、指定した列の高さを1上げる処理
+                        int targetColumn = 0; // 上げたい列のインデックスを指定する（例: 0から14の間）
+                        if (targetColumn >= 0 && targetColumn < ZSIZE) {
+                            for (int y = 0; y < XSIZE; y++) {
+                                table_[y][z].height += 1;
+                                // 高さが15を超えないようにチェック（必要に応じて）
+                                if (table_[y][z].height > 15) {
+                                    table_[y][z].height = 15;
+                                }
+                            }
+                        }
+                    }
+                    else if (controlId == IDC_RADIO_MOVE_DOWN) {
+                        int targetColumn = 0; // 下げたい列のインデックスを指定する
+                        if (targetColumn >= 0 && targetColumn < ZSIZE) {
+                            for (int y = 0; y < XSIZE; y++) {
+                                table_[y][z].height -= 1;
+                                // 高さが15を超えないようにチェック（必要に応じて）
+                                if (table_[y][z].height > 15) {
+                                    table_[y][z].height = 15;
+                                }
+                            }
+                        }
                     }
                         
                 }
@@ -212,15 +260,6 @@ void Stage::Save()
             outputFile.write((char*)&table_[x][z], sizeof(BLOCK));
         }
     }
-    //DWORD bytes = 0;
-    //WriteFile(
-    //    hFile,              //ファイルハンドル
-    //    data.c_str(),          //保存したい文字列            
-    //    data.size(),             //保存したサイズ
-    //    &bytes,
-    //    NULL
-    //);
-
     outputFile.close();
 }
 
@@ -253,7 +292,6 @@ void Stage::Load()
             inputFile.read((char*)&table_[x][z], sizeof(BLOCK));
         }
     }
-
     inputFile.close();
 }
 
@@ -277,6 +315,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_COMMAND:
         controlId = LOWORD(wp);
         comboId = SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+        
         return TRUE;
     }
     return FALSE;
