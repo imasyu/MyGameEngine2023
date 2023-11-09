@@ -171,10 +171,6 @@ void Stage::Update()
                         if (targetColumn >= 0 && targetColumn < ZSIZE) {
                             for (int y = 0; y < XSIZE; y++) {
                                 table_[y][z].height -= 1;
-                                // 高さが15を超えないようにチェック（必要に応じて）
-                                if (table_[y][z].height > 15) {
-                                    table_[y][z].height = 15;
-                                }
                             }
                         }
                     }
